@@ -53,7 +53,7 @@ def add_array(j,r,n):
         pp+=p
         ss+=s
         m.append([j,t,p,s,acs,rjs])
-        
+
 def sh():
     q='Power='+str(pp) + ' Sped='+str(ss) + ' Tmax='+str(ttmax) + ' Tmin='+str(ttmin) + '\n'
     qq='<html><body style="background-color:#111111;color:#ffffff;font-weight:bold;"><p>'+str(datetime.today())+'</p><p>'+q+'</p><table border=1 style="font-weight: bold;">'
@@ -80,7 +80,7 @@ def send_mail(q):
     body = q
     msg.attach(MIMEText(body, 'plain'))
     server = smtplib.SMTP_SSL('smtp.mail.ru', 465)
-    server.login("aipstudio@mail.ru", "nfgjxrb12")
+    server.login("aipstudio@mail.ru", "")
     text = msg.as_string()
     server.sendmail("aipstudio@mail.ru", "aipstudio@mail.ru", text)
     server.quit()
