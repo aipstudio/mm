@@ -36,7 +36,7 @@ def run():
     except requests.exceptions.ConnectTimeout:
         exit
     print (sh())
-    if pp < 1700 or ss < 475 or ttmax > 73 or ttmin < 40:
+    if pp < 1600 or ss < 570 or ttmax > 73 or ttmin < 40:
         send_mail(sh())
 
 def add_array(j,r,n):
