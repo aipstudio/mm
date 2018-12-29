@@ -36,7 +36,7 @@ def run():
     except requests.exceptions.ConnectTimeout:
         exit
     print (sh())
-    if (pp < 1500 or ss < 475 or ttmax > 73 or ttmin < 40):
+    if pp < 1700 or ss < 475 or ttmax > 73 or ttmin < 40:
         send_mail(sh())
 
 def add_array(j,r,n):
@@ -74,18 +74,21 @@ def sh():
     return q
 
 def send_mail(q):
-#    config = configparser.ConfigParser()
-#    config.read('config.ini', encoding='utf-8-sig')
+    config = configparser.ConfigParser()
+    config.read('config.ini', encoding='utf-8-sig')
+    email_login = config.get('mail', 'username')
+    email_pass = config.get('mail', 'password')
+    email_to = config.get('mail', 'email_to')
     msg = MIMEMultipart()
-    msg['From'] = "aipstudio@mail.ru"
-    msg['To'] = "aipstudio@mail.ru"
+    msg['From'] = email_login
+    msg['To'] = email_to
     msg['Subject'] = "Warning Mining"
     body = q
     msg.attach(MIMEText(body, 'plain'))
     server = smtplib.SMTP_SSL('smtp.mail.ru', 465)
-    server.login("aipstudio@mail.ru", "nfgjxrb12")
+    server.login(email_login, email_pass)
     text = msg.as_string()
-    server.sendmail("aipstudio@mail.ru", "aipstudio@mail.ru", text)
+    server.sendmail(email_login, email_to, text)
     server.quit()
 
 run()
