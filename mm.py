@@ -1,4 +1,5 @@
 import requests
+import configparser
 from threading import Timer
 from datetime import datetime
 import smtplib
@@ -73,14 +74,16 @@ def sh():
     return q
 
 def send_mail(q):
+    config = configparser.ConfigParser()
+    config.read('config.ini', encoding='utf-8-sig')
     msg = MIMEMultipart()
     msg['From'] = "aipstudio@mail.ru"
-    msg['To'] = "aipstudio@mail.ru"
+    msg['To'] = "aipstudion@mail.ru"
     msg['Subject'] = "Warning Mining"
     body = q
     msg.attach(MIMEText(body, 'plain'))
     server = smtplib.SMTP_SSL('smtp.mail.ru', 465)
-    server.login("aipstudio@mail.ru", "")
+    server.login(username, password)
     text = msg.as_string()
     server.sendmail("aipstudio@mail.ru", "aipstudio@mail.ru", text)
     server.quit()
