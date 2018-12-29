@@ -74,16 +74,16 @@ def sh():
     return q
 
 def send_mail(q):
-    config = configparser.ConfigParser()
-    config.read('config.ini', encoding='utf-8-sig')
+#    config = configparser.ConfigParser()
+#    config.read('config.ini', encoding='utf-8-sig')
     msg = MIMEMultipart()
     msg['From'] = "aipstudio@mail.ru"
-    msg['To'] = "aipstudion@mail.ru"
+    msg['To'] = "aipstudio@mail.ru"
     msg['Subject'] = "Warning Mining"
     body = q
     msg.attach(MIMEText(body, 'plain'))
     server = smtplib.SMTP_SSL('smtp.mail.ru', 465)
-    server.login(username, password)
+    server.login("aipstudio@mail.ru", "nfgjxrb12")
     text = msg.as_string()
     server.sendmail("aipstudio@mail.ru", "aipstudio@mail.ru", text)
     server.quit()
