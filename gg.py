@@ -1,7 +1,8 @@
 import xml.etree.ElementTree as ET
-#import subprocess
-#subprocess.run(["nvidia-smi.exe -q -x -f gg.xml"])
-tree = ET.parse('gg.xml')
+import os
+os.system("powershell -NoProfile -ExecutionPolicy ByPass -file mm_gg.ps1")
+
+tree = ET.parse('192.168.1.7.xml')
 root = tree.getroot()
 
 driver_version = root.find('driver_version')
@@ -19,7 +20,7 @@ for gpu in root.findall('gpu'):
         graphics_clock = clocks.find('graphics_clock').text
         mem_clock = clocks.find('mem_clock').text
         video_clock = clocks.find('video_clock').text
-    r=product_name+fan_speed+gpu_util+memory_util+gpu_temp+power_draw+graphics_clock
-    r+=mem_clock+video_clock
+    r=product_name+' '+fan_speed+' '+gpu_util+' '+memory_util+' '+gpu_temp+' '
+    r+=power_draw+' '+graphics_clock+' '
+    r+=mem_clock+' '+video_clock
     print(r)
-
