@@ -36,7 +36,7 @@ def run():
     except requests.exceptions.ConnectTimeout:
         exit
     os.system("powershell -NoProfile -ExecutionPolicy ByPass -file mm_gg.ps1")
-    gg='<table border=1 style="font-weight: bold;">'+get_ps_xml('192.168.1.2.xml')+get_ps_xml('192.168.1.3.xml')+get_ps_xml('192.168.1.7.xml')+'</table>'
+    gg='<table border=1 style="font-weight: bold;float:left"><tr><td>Name</td><td>Cooler</td><td>CPU</td><td>MEM</td><td>Temp</td><td>Watt</td><td>GPU Clock</td><td>MEM Clock</td><td>VIDEO Clock</td></tr>'+get_ps_xml('192.168.1.2.xml')+get_ps_xml('192.168.1.3.xml')+get_ps_xml('192.168.1.7.xml')+'</table>'
     print (sh())
     if pp < 1600 or ss < 570 or ttmax > 73 or ttmin < 40:
         send_mail(sh())
@@ -60,7 +60,7 @@ def add_array(j,r,n):
 def sh():
     global gg
     q='Power='+str(pp) + ' Sped='+str(ss) + ' Tmax='+str(ttmax) + ' Tmin='+str(ttmin) + '\n'
-    qq='<html><body style="background-color:#111111;color:#ffffff;font-weight:bold;"><p>'+str(datetime.today())+'</p><p>'+q+'</p><table border=1 style="font-weight: bold;">'
+    qq='<html><body style="background-color:#111111;color:#ffffff;font-weight:bold;"><p>'+str(datetime.today())+'</p><p>'+q+'</p><table border=1 style="font-weight: bold;float:left;">'
     qq+='<tr><td>Farm</td><td>Temp</td><td>Power</td><td>Hash</td><td>Ac</td><td>Rj</td></tr>'
     for row in m:
         qq+='<tr>'

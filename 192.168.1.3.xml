@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <!DOCTYPE nvidia_smi_log SYSTEM "nvsmi_device_v10.dtd">
 <nvidia_smi_log>
-	<timestamp>Tue Jan 01 11:06:16 2019</timestamp>
+	<timestamp>Tue Jan 01 11:46:10 2019</timestamp>
 	<driver_version>416.94</driver_version>
 	<cuda_version>10.0</cuda_version>
 	<attached_gpus>5</attached_gpus>
@@ -63,9 +63,9 @@
 			</pci_bridge_chip>
 			<replay_counter>0</replay_counter>
 			<tx_util>23000 KB/s</tx_util>
-			<rx_util>79000 KB/s</rx_util>
+			<rx_util>64000 KB/s</rx_util>
 		</pci>
-		<fan_speed>71 %</fan_speed>
+		<fan_speed>72 %</fan_speed>
 		<performance_state>P2</performance_state>
 		<clocks_throttle_reasons>
 			<clocks_throttle_reason_gpu_idle>Not Active</clocks_throttle_reason_gpu_idle>
@@ -91,7 +91,7 @@
 		<compute_mode>Default</compute_mode>
 		<utilization>
 			<gpu_util>100 %</gpu_util>
-			<memory_util>68 %</memory_util>
+			<memory_util>67 %</memory_util>
 			<encoder_util>0 %</encoder_util>
 			<decoder_util>0 %</decoder_util>
 		</utilization>
@@ -167,7 +167,7 @@
 			<pending_retirement>N/A</pending_retirement>
 		</retired_pages>
 		<temperature>
-			<gpu_temp>67 C</gpu_temp>
+			<gpu_temp>68 C</gpu_temp>
 			<gpu_temp_max_threshold>99 C</gpu_temp_max_threshold>
 			<gpu_temp_slow_threshold>96 C</gpu_temp_slow_threshold>
 			<gpu_temp_max_gpu_threshold>N/A</gpu_temp_max_gpu_threshold>
@@ -177,7 +177,7 @@
 		<power_readings>
 			<power_state>P2</power_state>
 			<power_management>Supported</power_management>
-			<power_draw>132.68 W</power_draw>
+			<power_draw>135.01 W</power_draw>
 			<power_limit>142.40 W</power_limit>
 			<default_power_limit>160.00 W</default_power_limit>
 			<enforced_power_limit>142.40 W</enforced_power_limit>
@@ -185,10 +185,10 @@
 			<max_power_limit>176.00 W</max_power_limit>
 		</power_readings>
 		<clocks>
-			<graphics_clock>1784 MHz</graphics_clock>
-			<sm_clock>1784 MHz</sm_clock>
+			<graphics_clock>1822 MHz</graphics_clock>
+			<sm_clock>1822 MHz</sm_clock>
 			<mem_clock>4590 MHz</mem_clock>
-			<video_clock>1594 MHz</video_clock>
+			<video_clock>1632 MHz</video_clock>
 		</clocks>
 		<applications_clocks>
 			<graphics_clock>N/A</graphics_clock>
@@ -281,8 +281,8 @@
 				<bridge_chip_fw>N/A</bridge_chip_fw>
 			</pci_bridge_chip>
 			<replay_counter>0</replay_counter>
-			<tx_util>15000 KB/s</tx_util>
-			<rx_util>47000 KB/s</rx_util>
+			<tx_util>16000 KB/s</tx_util>
+			<rx_util>42000 KB/s</rx_util>
 		</pci>
 		<fan_speed>70 %</fan_speed>
 		<performance_state>P2</performance_state>
@@ -310,7 +310,7 @@
 		<compute_mode>Default</compute_mode>
 		<utilization>
 			<gpu_util>100 %</gpu_util>
-			<memory_util>63 %</memory_util>
+			<memory_util>65 %</memory_util>
 			<encoder_util>0 %</encoder_util>
 			<decoder_util>0 %</decoder_util>
 		</utilization>
@@ -396,7 +396,7 @@
 		<power_readings>
 			<power_state>P2</power_state>
 			<power_management>Supported</power_management>
-			<power_draw>108.08 W</power_draw>
+			<power_draw>108.90 W</power_draw>
 			<power_limit>115.20 W</power_limit>
 			<default_power_limit>160.00 W</default_power_limit>
 			<enforced_power_limit>115.20 W</enforced_power_limit>
@@ -404,10 +404,10 @@
 			<max_power_limit>176.00 W</max_power_limit>
 		</power_readings>
 		<clocks>
-			<graphics_clock>1632 MHz</graphics_clock>
-			<sm_clock>1632 MHz</sm_clock>
+			<graphics_clock>1645 MHz</graphics_clock>
+			<sm_clock>1645 MHz</sm_clock>
 			<mem_clock>4590 MHz</mem_clock>
-			<video_clock>1468 MHz</video_clock>
+			<video_clock>1480 MHz</video_clock>
 		</clocks>
 		<applications_clocks>
 			<graphics_clock>N/A</graphics_clock>
@@ -500,8 +500,8 @@
 				<bridge_chip_fw>N/A</bridge_chip_fw>
 			</pci_bridge_chip>
 			<replay_counter>0</replay_counter>
-			<tx_util>17000 KB/s</tx_util>
-			<rx_util>52000 KB/s</rx_util>
+			<tx_util>15000 KB/s</tx_util>
+			<rx_util>53000 KB/s</rx_util>
 		</pci>
 		<fan_speed>70 %</fan_speed>
 		<performance_state>P2</performance_state>
@@ -529,7 +529,7 @@
 		<compute_mode>Default</compute_mode>
 		<utilization>
 			<gpu_util>100 %</gpu_util>
-			<memory_util>66 %</memory_util>
+			<memory_util>64 %</memory_util>
 			<encoder_util>0 %</encoder_util>
 			<decoder_util>0 %</decoder_util>
 		</utilization>
@@ -605,7 +605,7 @@
 			<pending_retirement>N/A</pending_retirement>
 		</retired_pages>
 		<temperature>
-			<gpu_temp>65 C</gpu_temp>
+			<gpu_temp>66 C</gpu_temp>
 			<gpu_temp_max_threshold>99 C</gpu_temp_max_threshold>
 			<gpu_temp_slow_threshold>96 C</gpu_temp_slow_threshold>
 			<gpu_temp_max_gpu_threshold>N/A</gpu_temp_max_gpu_threshold>
@@ -615,7 +615,7 @@
 		<power_readings>
 			<power_state>P2</power_state>
 			<power_management>Supported</power_management>
-			<power_draw>136.68 W</power_draw>
+			<power_draw>122.72 W</power_draw>
 			<power_limit>131.20 W</power_limit>
 			<default_power_limit>160.00 W</default_power_limit>
 			<enforced_power_limit>131.20 W</enforced_power_limit>
@@ -623,10 +623,10 @@
 			<max_power_limit>176.00 W</max_power_limit>
 		</power_readings>
 		<clocks>
-			<graphics_clock>1759 MHz</graphics_clock>
-			<sm_clock>1759 MHz</sm_clock>
+			<graphics_clock>1721 MHz</graphics_clock>
+			<sm_clock>1721 MHz</sm_clock>
 			<mem_clock>4665 MHz</mem_clock>
-			<video_clock>1582 MHz</video_clock>
+			<video_clock>1544 MHz</video_clock>
 		</clocks>
 		<applications_clocks>
 			<graphics_clock>N/A</graphics_clock>
@@ -719,8 +719,8 @@
 				<bridge_chip_fw>N/A</bridge_chip_fw>
 			</pci_bridge_chip>
 			<replay_counter>0</replay_counter>
-			<tx_util>10000 KB/s</tx_util>
-			<rx_util>47000 KB/s</rx_util>
+			<tx_util>12000 KB/s</tx_util>
+			<rx_util>50000 KB/s</rx_util>
 		</pci>
 		<fan_speed>70 %</fan_speed>
 		<performance_state>P2</performance_state>
@@ -834,7 +834,7 @@
 		<power_readings>
 			<power_state>P2</power_state>
 			<power_management>Supported</power_management>
-			<power_draw>133.48 W</power_draw>
+			<power_draw>126.68 W</power_draw>
 			<power_limit>137.60 W</power_limit>
 			<default_power_limit>160.00 W</default_power_limit>
 			<enforced_power_limit>137.60 W</enforced_power_limit>
@@ -938,8 +938,8 @@
 				<bridge_chip_fw>N/A</bridge_chip_fw>
 			</pci_bridge_chip>
 			<replay_counter>65535</replay_counter>
-			<tx_util>17000 KB/s</tx_util>
-			<rx_util>68000 KB/s</rx_util>
+			<tx_util>12000 KB/s</tx_util>
+			<rx_util>67000 KB/s</rx_util>
 		</pci>
 		<fan_speed>70 %</fan_speed>
 		<performance_state>P2</performance_state>
@@ -1053,7 +1053,7 @@
 		<power_readings>
 			<power_state>P2</power_state>
 			<power_management>Supported</power_management>
-			<power_draw>127.60 W</power_draw>
+			<power_draw>134.67 W</power_draw>
 			<power_limit>142.40 W</power_limit>
 			<default_power_limit>160.00 W</default_power_limit>
 			<enforced_power_limit>142.40 W</enforced_power_limit>
