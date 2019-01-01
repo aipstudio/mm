@@ -41,25 +41,25 @@ def run():
     print (datetime.today())
     print (q)
 
+#сборка web страницы index.html
     qq='<html><body style="background-color:#111111;color:#ffffff;font-weight:bold;">'
     qq+='<p>'+str(datetime.today())+'</p><p>'+q+'</p>'
-
     qq+='<table border=1 style="font-weight: bold;float:left;">'
     qq+='<tr><td>Farm</td><td>Temp</td><td>Power</td><td>Hash</td><td>Ac</td><td>Rj</td></tr>'
     qq+=get_array_json()+'</table>'
     qq+='<table border=1 style="font-weight: bold;float:left"><tr><td>Name</td><td>Cooler</td><td>CPU</td><td>MEM</td><td>Temp</td><td>Watt</td><td>GPU Clock</td><td>MEM Clock</td><td>VIDEO Clock</td></tr>'
     qq+=get_ps_xml('192.168.1.2.xml')+get_ps_xml('192.168.1.3.xml')+get_ps_xml('192.168.1.7.xml')+'</table>'
-
     qq+='</body></html>'
 
     f = open('index.html', 'w')
     f.write(qq)
     f.close()
 
+#если средине показатели отклоняются - уведомляем почтой
     if pp < 1600 or ss < 570 or ttmax > 73 or ttmin < 40:
         send_mail(sh())
 
-def add_array(j,r,n):
+def add_array(j,r,n): #наполнение массива элементами взятыми из api json майнеров
     global pp,ss,ttmax,ttmin
     for i in range(n):
         t = r.json()['result'][i]['temperature']
@@ -75,7 +75,7 @@ def add_array(j,r,n):
         ss+=s
         m.append([j,t,p,s,acs,rjs])
 
-def get_array_json():
+def get_array_json(): #перебор массива с данными взятыми из api майнеров и подготовка к выводу
     rr=r=''
     for row in m:
         rr+='<tr>'
@@ -87,7 +87,7 @@ def get_array_json():
     print(r)
     return rr
 
-def send_mail(q):
+def send_mail(q): #отправка уведомлений почтой
     config = configparser.ConfigParser()
     config.read('config.ini', encoding='utf-8-sig')
     email_login = config.get('mail', 'username')
@@ -105,7 +105,7 @@ def send_mail(q):
     server.sendmail(email_login, email_to, text)
     server.quit()
 
-def get_ps_xml(p1):
+def get_ps_xml(p1): #перебор элементов в xml файлах(файлы получены через powershell 5.1 через сесиию) и подготовка к выводу
     tree = ET.parse(p1)
     root = tree.getroot()
     driver_version = root.find('driver_version')
