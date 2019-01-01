@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <!DOCTYPE nvidia_smi_log SYSTEM "nvsmi_device_v10.dtd">
 <nvidia_smi_log>
-	<timestamp>Tue Jan 01 16:11:42 2019</timestamp>
+	<timestamp>Tue Jan 01 17:58:02 2019</timestamp>
 	<driver_version>416.94</driver_version>
 	<cuda_version>10.0</cuda_version>
 	<attached_gpus>2</attached_gpus>
@@ -91,7 +91,7 @@
 		<compute_mode>Default</compute_mode>
 		<utilization>
 			<gpu_util>100 %</gpu_util>
-			<memory_util>67 %</memory_util>
+			<memory_util>70 %</memory_util>
 			<encoder_util>0 %</encoder_util>
 			<decoder_util>0 %</decoder_util>
 		</utilization>
@@ -177,7 +177,7 @@
 		<power_readings>
 			<power_state>P2</power_state>
 			<power_management>Supported</power_management>
-			<power_draw>142.22 W</power_draw>
+			<power_draw>140.07 W</power_draw>
 			<power_limit>144.00 W</power_limit>
 			<default_power_limit>160.00 W</default_power_limit>
 			<enforced_power_limit>144.00 W</enforced_power_limit>
@@ -185,10 +185,10 @@
 			<max_power_limit>176.00 W</max_power_limit>
 		</power_readings>
 		<clocks>
-			<graphics_clock>1733 MHz</graphics_clock>
-			<sm_clock>1733 MHz</sm_clock>
+			<graphics_clock>1746 MHz</graphics_clock>
+			<sm_clock>1746 MHz</sm_clock>
 			<mem_clock>4452 MHz</mem_clock>
-			<video_clock>1556 MHz</video_clock>
+			<video_clock>1582 MHz</video_clock>
 		</clocks>
 		<applications_clocks>
 			<graphics_clock>N/A</graphics_clock>
@@ -282,14 +282,14 @@
 			</pci_bridge_chip>
 			<replay_counter>0</replay_counter>
 			<tx_util>13000 KB/s</tx_util>
-			<rx_util>57000 KB/s</rx_util>
+			<rx_util>58000 KB/s</rx_util>
 		</pci>
 		<fan_speed>72 %</fan_speed>
 		<performance_state>P2</performance_state>
 		<clocks_throttle_reasons>
 			<clocks_throttle_reason_gpu_idle>Not Active</clocks_throttle_reason_gpu_idle>
 			<clocks_throttle_reason_applications_clocks_setting>Not Active</clocks_throttle_reason_applications_clocks_setting>
-			<clocks_throttle_reason_sw_power_cap>Not Active</clocks_throttle_reason_sw_power_cap>
+			<clocks_throttle_reason_sw_power_cap>Active</clocks_throttle_reason_sw_power_cap>
 			<clocks_throttle_reason_hw_slowdown>Not Active</clocks_throttle_reason_hw_slowdown>
 			<clocks_throttle_reason_hw_thermal_slowdown>Not Active</clocks_throttle_reason_hw_thermal_slowdown>
 			<clocks_throttle_reason_hw_power_brake_slowdown>Not Active</clocks_throttle_reason_hw_power_brake_slowdown>
@@ -396,7 +396,7 @@
 		<power_readings>
 			<power_state>P2</power_state>
 			<power_management>Supported</power_management>
-			<power_draw>139.70 W</power_draw>
+			<power_draw>131.96 W</power_draw>
 			<power_limit>140.80 W</power_limit>
 			<default_power_limit>160.00 W</default_power_limit>
 			<enforced_power_limit>140.80 W</enforced_power_limit>
@@ -404,10 +404,10 @@
 			<max_power_limit>176.00 W</max_power_limit>
 		</power_readings>
 		<clocks>
-			<graphics_clock>1759 MHz</graphics_clock>
-			<sm_clock>1759 MHz</sm_clock>
+			<graphics_clock>1784 MHz</graphics_clock>
+			<sm_clock>1784 MHz</sm_clock>
 			<mem_clock>4608 MHz</mem_clock>
-			<video_clock>1582 MHz</video_clock>
+			<video_clock>1594 MHz</video_clock>
 		</clocks>
 		<applications_clocks>
 			<graphics_clock>N/A</graphics_clock>
