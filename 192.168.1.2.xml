@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <!DOCTYPE nvidia_smi_log SYSTEM "nvsmi_device_v10.dtd">
 <nvidia_smi_log>
-	<timestamp>Tue Jan 01 10:02:19 2019</timestamp>
+	<timestamp>Tue Jan 01 11:06:03 2019</timestamp>
 	<driver_version>416.94</driver_version>
 	<cuda_version>10.0</cuda_version>
 	<attached_gpus>2</attached_gpus>
@@ -62,15 +62,15 @@
 				<bridge_chip_fw>N/A</bridge_chip_fw>
 			</pci_bridge_chip>
 			<replay_counter>0</replay_counter>
-			<tx_util>15000 KB/s</tx_util>
-			<rx_util>42000 KB/s</rx_util>
+			<tx_util>10000 KB/s</tx_util>
+			<rx_util>48000 KB/s</rx_util>
 		</pci>
 		<fan_speed>72 %</fan_speed>
 		<performance_state>P2</performance_state>
 		<clocks_throttle_reasons>
 			<clocks_throttle_reason_gpu_idle>Not Active</clocks_throttle_reason_gpu_idle>
 			<clocks_throttle_reason_applications_clocks_setting>Not Active</clocks_throttle_reason_applications_clocks_setting>
-			<clocks_throttle_reason_sw_power_cap>Active</clocks_throttle_reason_sw_power_cap>
+			<clocks_throttle_reason_sw_power_cap>Not Active</clocks_throttle_reason_sw_power_cap>
 			<clocks_throttle_reason_hw_slowdown>Not Active</clocks_throttle_reason_hw_slowdown>
 			<clocks_throttle_reason_hw_thermal_slowdown>Not Active</clocks_throttle_reason_hw_thermal_slowdown>
 			<clocks_throttle_reason_hw_power_brake_slowdown>Not Active</clocks_throttle_reason_hw_power_brake_slowdown>
@@ -91,7 +91,7 @@
 		<compute_mode>Default</compute_mode>
 		<utilization>
 			<gpu_util>100 %</gpu_util>
-			<memory_util>68 %</memory_util>
+			<memory_util>69 %</memory_util>
 			<encoder_util>0 %</encoder_util>
 			<decoder_util>0 %</decoder_util>
 		</utilization>
@@ -167,7 +167,7 @@
 			<pending_retirement>N/A</pending_retirement>
 		</retired_pages>
 		<temperature>
-			<gpu_temp>69 C</gpu_temp>
+			<gpu_temp>68 C</gpu_temp>
 			<gpu_temp_max_threshold>99 C</gpu_temp_max_threshold>
 			<gpu_temp_slow_threshold>96 C</gpu_temp_slow_threshold>
 			<gpu_temp_max_gpu_threshold>N/A</gpu_temp_max_gpu_threshold>
@@ -177,7 +177,7 @@
 		<power_readings>
 			<power_state>P2</power_state>
 			<power_management>Supported</power_management>
-			<power_draw>134.65 W</power_draw>
+			<power_draw>142.30 W</power_draw>
 			<power_limit>144.00 W</power_limit>
 			<default_power_limit>160.00 W</default_power_limit>
 			<enforced_power_limit>144.00 W</enforced_power_limit>
@@ -282,14 +282,14 @@
 			</pci_bridge_chip>
 			<replay_counter>0</replay_counter>
 			<tx_util>12000 KB/s</tx_util>
-			<rx_util>59000 KB/s</rx_util>
+			<rx_util>52000 KB/s</rx_util>
 		</pci>
-		<fan_speed>71 %</fan_speed>
+		<fan_speed>70 %</fan_speed>
 		<performance_state>P2</performance_state>
 		<clocks_throttle_reasons>
 			<clocks_throttle_reason_gpu_idle>Not Active</clocks_throttle_reason_gpu_idle>
 			<clocks_throttle_reason_applications_clocks_setting>Not Active</clocks_throttle_reason_applications_clocks_setting>
-			<clocks_throttle_reason_sw_power_cap>Active</clocks_throttle_reason_sw_power_cap>
+			<clocks_throttle_reason_sw_power_cap>Not Active</clocks_throttle_reason_sw_power_cap>
 			<clocks_throttle_reason_hw_slowdown>Not Active</clocks_throttle_reason_hw_slowdown>
 			<clocks_throttle_reason_hw_thermal_slowdown>Not Active</clocks_throttle_reason_hw_thermal_slowdown>
 			<clocks_throttle_reason_hw_power_brake_slowdown>Not Active</clocks_throttle_reason_hw_power_brake_slowdown>
@@ -386,7 +386,7 @@
 			<pending_retirement>N/A</pending_retirement>
 		</retired_pages>
 		<temperature>
-			<gpu_temp>67 C</gpu_temp>
+			<gpu_temp>66 C</gpu_temp>
 			<gpu_temp_max_threshold>99 C</gpu_temp_max_threshold>
 			<gpu_temp_slow_threshold>96 C</gpu_temp_slow_threshold>
 			<gpu_temp_max_gpu_threshold>N/A</gpu_temp_max_gpu_threshold>
@@ -396,7 +396,7 @@
 		<power_readings>
 			<power_state>P2</power_state>
 			<power_management>Supported</power_management>
-			<power_draw>125.07 W</power_draw>
+			<power_draw>130.31 W</power_draw>
 			<power_limit>137.60 W</power_limit>
 			<default_power_limit>160.00 W</default_power_limit>
 			<enforced_power_limit>137.60 W</enforced_power_limit>

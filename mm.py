@@ -1,20 +1,17 @@
-import requests
-import configparser
+import requests, configparser,os,smtplib
 import xml.etree.ElementTree as ET
-import os
 from threading import Timer
 from datetime import datetime
-import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-m = []
-g = []
+m=[]
+gg=''
 pp=ss=ttmax=0
 ttmin=100
 def run():
     Timer(600, run).start ()
     m.clear()
-    global pp,ss,ttmax,ttmin
+    global pp,ss,ttmax,ttmin,gg
     pp=ss=ttmax=0
     ttmin=100
     try:
@@ -39,6 +36,7 @@ def run():
     except requests.exceptions.ConnectTimeout:
         exit
     os.system("powershell -NoProfile -ExecutionPolicy ByPass -file mm_gg.ps1")
+    gg='<table border=1 style="font-weight: bold;">'+get_ps_xml('192.168.1.2.xml')+get_ps_xml('192.168.1.3.xml')+get_ps_xml('192.168.1.7.xml')+'</table>'
     print (sh())
     if pp < 1600 or ss < 570 or ttmax > 73 or ttmin < 40:
         send_mail(sh())
@@ -60,6 +58,7 @@ def add_array(j,r,n):
         m.append([j,t,p,s,acs,rjs])
 
 def sh():
+    global gg
     q='Power='+str(pp) + ' Sped='+str(ss) + ' Tmax='+str(ttmax) + ' Tmin='+str(ttmin) + '\n'
     qq='<html><body style="background-color:#111111;color:#ffffff;font-weight:bold;"><p>'+str(datetime.today())+'</p><p>'+q+'</p><table border=1 style="font-weight: bold;">'
     qq+='<tr><td>Farm</td><td>Temp</td><td>Power</td><td>Hash</td><td>Ac</td><td>Rj</td></tr>'
@@ -70,7 +69,7 @@ def sh():
             qq+='<td>'+str(elem)+'</td>'
         q+='\n'
         qq+='</tr>'
-    qq+='</table>'+get_ps_xml('192.168.1.2.xml')+get_ps_xml('192.168.1.3.xml')+get_ps_xml('192.168.1.7.xml')
+    qq+='</table>'+gg
     qq+='</body></html>'
     f = open('index.html', 'w')
     f.write(qq)
@@ -101,7 +100,7 @@ def get_ps_xml(q):
     root = tree.getroot()
     driver_version = root.find('driver_version')
     r=''
-    rr='<table border=1 style="font-weight: bold;">'
+    rr=''
     for gpu in root.findall('gpu'):
         product_name = gpu.find('product_name').text
         fan_speed = gpu.find('fan_speed').text
@@ -122,7 +121,6 @@ def get_ps_xml(q):
         rr+='<tr><td>'+product_name+'</td><td>'+fan_speed+'</td><td>'+gpu_util+'</td><td>'
         rr+=memory_util+'</td><td>'+gpu_temp+'</td><td>'+power_draw+'</td><td>'
         rr+=graphics_clock+'</td><td>'+mem_clock+'</td><td>'+video_clock+'</td></tr>'
-    rr+='</table>'
     print (r)
     return rr
 
