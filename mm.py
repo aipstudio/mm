@@ -1,12 +1,11 @@
-import requests, configparser,os,smtplib,json
+import requests, configparser,os,smtplib,json,socket
 import xml.etree.ElementTree as ET
 from threading import Timer
 from datetime import datetime
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-m=[]
-#ferma = ['192.168.1.2','192.168.1.3','192.168.1.7']
-ferma = []
+m=[] #массив для ewbf
+ferma = [] #массив ип-адресов ригов
 pp=ss=ttmax=0
 ttmin=100
 
@@ -22,12 +21,43 @@ def run():
     pp=ss=ttmasx=0
     ttmin=100
     qqq=''
-    for x in ferma: #опрашиваем api удаленных машин
+    rr=''
+    ss=0
+    for x in ferma: #ewbf опрашиваем api удаленных майнеров через get
         try:
-            r = requests.get('http://'+x+':42000/getstat', timeout=(3))
+            r = requests.get('http://'+x+':42000/getstat', timeout=(1))
             add_array (x,r,len(r.json()["result"]))
         except requests.exceptions.RequestException:
+            #send_mail('no connect '+x)
+            #print("exception ewbf")
+            exit
+
+    for x in ferma: #claymore опрашиваем api удаленных майнеров через сокет
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.connect((x,3333))
+            s.send('{"id":0,"jsonrpc":"2.0","method":"miner_getstat1"}'.encode("utf-8"))
+            j=s.recv(2048)
+            s.close()
+            r=json.loads(j.decode("utf-8"))
+            m3 = r['result'][3].split(';')
+            m6 = r['result'][6].split(';')
+            for x in range(len(m3)):
+                hashrate=m3[::][x]
+                temp=m6[::2][x]
+                cooler=m6[1::2][x]
+                rr+='<tr>'
+                rr+='<td>'+hashrate+'</td>'+'<td>'+temp+'</td>'+'<td>'+cooler+'</td>'
+                rr+='</tr>'
+                ss+=int(hashrate)
+                if int(temp) > ttmax:
+                    ttmax = int(temp)
+                elif int(temp) < ttmin:
+                    ttmin = int(temp)
+                print (hashrate+' '+temp+' '+cooler)
+        except:
             send_mail('no connect '+x)
+            print("exception claymore")
 
     r=os.system("powershell -NoProfile -ExecutionPolicy ByPass -file mm_gg.ps1")
     if r != 0:
@@ -42,15 +72,19 @@ def run():
     #сборка web страницы index.html
     qq='<html><body style="background-color:#111111;color:#ffffff;font-weight:bold;">'
     qq+='<p>'+str(datetime.today())+'</p><p>'+q+'</p>'
-    qq+='<table border=1 style="font-weight: bold;float:left;">'
-    qq+='<tr><td>IPADDR</td><td>Temp</td><td>Power</td><td>Hash</td><td>Ac</td><td>Rj</td></tr>'
-    qq+=get_array_json()+'</table>'
-    qq+='<table border=1 style="font-weight: bold;float:left"><tr><td>Name</td><td>Cooler</td><td>CPU</td><td>MEM</td><td>Temp</td><td>Watt</td><td>GPU Clock</td><td>MEM Clock</td><td>VIDEO Clock</td></tr>'
 
+    #qq+='<table border=1 style="font-weight: bold;float:left;">'
+    #qq+='<tr><td>IPADDR</td><td>Temp</td><td>Power</td><td>Hash</td><td>Ac</td><td>Rj</td></tr>'
+    #qq+=get_array_json()+'</table>'
+
+    qq+='<table border=1 style="font-weight: bold;float:left;">'
+    qq+='<tr><td>HASH</td><td>Temp</td><td>Cooler</td></tr>'
+    qq+=rr+'</table>'
+
+    qq+='<table border=1 style="font-weight: bold;float:left"><tr><td>Name</td><td>Cooler</td><td>CPU</td><td>MEM</td><td>Temp</td><td>Watt</td><td>GPU Clock</td><td>MEM Clock</td><td>VIDEO Clock</td></tr>'
     for x in ferma: #собираем данные из файлов *.xml
         if os.path.isfile(x+'.xml'):
             qqq+=get_ps_xml(x+'.xml')
-
     qq+=qqq+'</table>'
     qq+='</body></html>'
 
@@ -59,10 +93,11 @@ def run():
     f.close()
 
     #если средине показатели отклоняются - уведомляем почтой
-    if pp < 1600 or ss < 570 or ttmax > 73 or ttmin < 40:
+    #if pp < 1600 or ss < 570 or ttmax > 73 or ttmin < 40:
+    if ss < 380000 or ttmax > 73 or ttmin < 40:
         send_mail('Fucking mining ERROR')
 
-def add_array(j,r,n): #наполнение массива элементами взятыми из api json майнеров
+def add_array(j,r,n): #ewbf наполнение массива элементами взятыми из api json майнеров 
     global pp,ss,ttmax,ttmin
     for i in range(n):
         t = r.json()['result'][i]['temperature']
@@ -78,7 +113,7 @@ def add_array(j,r,n): #наполнение массива элементами 
         ss+=s
         m.append([j,t,p,s,acs,rjs])
 
-def get_array_json(): #перебор массива с данными взятыми из api майнеров и подготовка к выводу
+def get_array_json(): #ewbf перебор массива с данными взятыми из api майнеров и подготовка к выводу
     rr=r=''
     for row in m:
         rr+='<tr>'
