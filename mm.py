@@ -5,9 +5,14 @@ from datetime import datetime
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 m=[]
-ferma = ['192.168.1.2','192.168.1.3','192.168.1.7']
+#ferma = ['192.168.1.2','192.168.1.3','192.168.1.7']
+ferma = []
 pp=ss=ttmax=0
 ttmin=100
+
+f = open('ip.txt')
+    for line in f:
+        ferma.add_array(line)
 
 def run():
     Timer(600,run).start()
