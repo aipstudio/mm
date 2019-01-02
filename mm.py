@@ -11,8 +11,9 @@ pp=ss=ttmax=0
 ttmin=100
 
 f = open('ip.txt')
-    for line in f:
-        ferma.add_array(line)
+for line in f:
+    ferma.append(line.rstrip())
+f.close()
 
 def run():
     Timer(600,run).start()
