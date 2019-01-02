@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <!DOCTYPE nvidia_smi_log SYSTEM "nvsmi_device_v10.dtd">
 <nvidia_smi_log>
-	<timestamp>Tue Jan 01 17:58:00 2019</timestamp>
+	<timestamp>Wed Jan 02 07:35:52 2019</timestamp>
 	<driver_version>417.22</driver_version>
 	<cuda_version>10.0</cuda_version>
 	<attached_gpus>6</attached_gpus>
@@ -62,15 +62,15 @@
 				<bridge_chip_fw>N/A</bridge_chip_fw>
 			</pci_bridge_chip>
 			<replay_counter>0</replay_counter>
-			<tx_util>31000 KB/s</tx_util>
-			<rx_util>38000 KB/s</rx_util>
+			<tx_util>17000 KB/s</tx_util>
+			<rx_util>47000 KB/s</rx_util>
 		</pci>
 		<fan_speed>48 %</fan_speed>
 		<performance_state>P2</performance_state>
 		<clocks_throttle_reasons>
 			<clocks_throttle_reason_gpu_idle>Not Active</clocks_throttle_reason_gpu_idle>
 			<clocks_throttle_reason_applications_clocks_setting>Not Active</clocks_throttle_reason_applications_clocks_setting>
-			<clocks_throttle_reason_sw_power_cap>Active</clocks_throttle_reason_sw_power_cap>
+			<clocks_throttle_reason_sw_power_cap>Not Active</clocks_throttle_reason_sw_power_cap>
 			<clocks_throttle_reason_hw_slowdown>Not Active</clocks_throttle_reason_hw_slowdown>
 			<clocks_throttle_reason_hw_thermal_slowdown>Not Active</clocks_throttle_reason_hw_thermal_slowdown>
 			<clocks_throttle_reason_hw_power_brake_slowdown>Not Active</clocks_throttle_reason_hw_power_brake_slowdown>
@@ -91,7 +91,7 @@
 		<compute_mode>Default</compute_mode>
 		<utilization>
 			<gpu_util>100 %</gpu_util>
-			<memory_util>70 %</memory_util>
+			<memory_util>69 %</memory_util>
 			<encoder_util>0 %</encoder_util>
 			<decoder_util>0 %</decoder_util>
 		</utilization>
@@ -177,7 +177,7 @@
 		<power_readings>
 			<power_state>P2</power_state>
 			<power_management>Supported</power_management>
-			<power_draw>123.19 W</power_draw>
+			<power_draw>135.67 W</power_draw>
 			<power_limit>128.35 W</power_limit>
 			<default_power_limit>151.00 W</default_power_limit>
 			<enforced_power_limit>128.35 W</enforced_power_limit>
@@ -185,10 +185,10 @@
 			<max_power_limit>170.00 W</max_power_limit>
 		</power_readings>
 		<clocks>
-			<graphics_clock>1759 MHz</graphics_clock>
-			<sm_clock>1759 MHz</sm_clock>
+			<graphics_clock>1771 MHz</graphics_clock>
+			<sm_clock>1771 MHz</sm_clock>
 			<mem_clock>4404 MHz</mem_clock>
-			<video_clock>1582 MHz</video_clock>
+			<video_clock>1594 MHz</video_clock>
 		</clocks>
 		<applications_clocks>
 			<graphics_clock>N/A</graphics_clock>
@@ -214,9 +214,9 @@
 		<supported_clocks>N/A</supported_clocks>
 		<processes>
 			<process_info>
-				<pid>7048</pid>
+				<pid>2880</pid>
 				<type>C</type>
-				<process_name>Insufficient Permissions</process_name>
+				<process_name>C:\Users\user\Desktop\EWBF Equihash miner v0.6\miner.exe</process_name>
 				<used_memory>N/A</used_memory>
 			</process_info>
 		</processes>
@@ -280,9 +280,9 @@
 				<bridge_chip_type>N/A</bridge_chip_type>
 				<bridge_chip_fw>N/A</bridge_chip_fw>
 			</pci_bridge_chip>
-			<replay_counter>9</replay_counter>
-			<tx_util>13000 KB/s</tx_util>
-			<rx_util>37000 KB/s</rx_util>
+			<replay_counter>194</replay_counter>
+			<tx_util>16000 KB/s</tx_util>
+			<rx_util>35000 KB/s</rx_util>
 		</pci>
 		<fan_speed>53 %</fan_speed>
 		<performance_state>P2</performance_state>
@@ -310,7 +310,7 @@
 		<compute_mode>Default</compute_mode>
 		<utilization>
 			<gpu_util>100 %</gpu_util>
-			<memory_util>68 %</memory_util>
+			<memory_util>67 %</memory_util>
 			<encoder_util>0 %</encoder_util>
 			<decoder_util>0 %</decoder_util>
 		</utilization>
@@ -396,7 +396,7 @@
 		<power_readings>
 			<power_state>P2</power_state>
 			<power_management>Supported</power_management>
-			<power_draw>117.96 W</power_draw>
+			<power_draw>129.65 W</power_draw>
 			<power_limit>128.35 W</power_limit>
 			<default_power_limit>151.00 W</default_power_limit>
 			<enforced_power_limit>128.35 W</enforced_power_limit>
@@ -404,10 +404,10 @@
 			<max_power_limit>170.00 W</max_power_limit>
 		</power_readings>
 		<clocks>
-			<graphics_clock>1721 MHz</graphics_clock>
-			<sm_clock>1721 MHz</sm_clock>
+			<graphics_clock>1733 MHz</graphics_clock>
+			<sm_clock>1733 MHz</sm_clock>
 			<mem_clock>4404 MHz</mem_clock>
-			<video_clock>1544 MHz</video_clock>
+			<video_clock>1556 MHz</video_clock>
 		</clocks>
 		<applications_clocks>
 			<graphics_clock>N/A</graphics_clock>
@@ -433,9 +433,9 @@
 		<supported_clocks>N/A</supported_clocks>
 		<processes>
 			<process_info>
-				<pid>7048</pid>
+				<pid>2880</pid>
 				<type>C</type>
-				<process_name>Insufficient Permissions</process_name>
+				<process_name>C:\Users\user\Desktop\EWBF Equihash miner v0.6\miner.exe</process_name>
 				<used_memory>N/A</used_memory>
 			</process_info>
 		</processes>
@@ -499,16 +499,16 @@
 				<bridge_chip_type>N/A</bridge_chip_type>
 				<bridge_chip_fw>N/A</bridge_chip_fw>
 			</pci_bridge_chip>
-			<replay_counter>34223</replay_counter>
-			<tx_util>13000 KB/s</tx_util>
-			<rx_util>80000 KB/s</rx_util>
+			<replay_counter>65535</replay_counter>
+			<tx_util>12000 KB/s</tx_util>
+			<rx_util>36000 KB/s</rx_util>
 		</pci>
-		<fan_speed>53 %</fan_speed>
+		<fan_speed>55 %</fan_speed>
 		<performance_state>P2</performance_state>
 		<clocks_throttle_reasons>
 			<clocks_throttle_reason_gpu_idle>Not Active</clocks_throttle_reason_gpu_idle>
 			<clocks_throttle_reason_applications_clocks_setting>Not Active</clocks_throttle_reason_applications_clocks_setting>
-			<clocks_throttle_reason_sw_power_cap>Active</clocks_throttle_reason_sw_power_cap>
+			<clocks_throttle_reason_sw_power_cap>Not Active</clocks_throttle_reason_sw_power_cap>
 			<clocks_throttle_reason_hw_slowdown>Not Active</clocks_throttle_reason_hw_slowdown>
 			<clocks_throttle_reason_hw_thermal_slowdown>Not Active</clocks_throttle_reason_hw_thermal_slowdown>
 			<clocks_throttle_reason_hw_power_brake_slowdown>Not Active</clocks_throttle_reason_hw_power_brake_slowdown>
@@ -529,7 +529,7 @@
 		<compute_mode>Default</compute_mode>
 		<utilization>
 			<gpu_util>100 %</gpu_util>
-			<memory_util>70 %</memory_util>
+			<memory_util>71 %</memory_util>
 			<encoder_util>0 %</encoder_util>
 			<decoder_util>0 %</decoder_util>
 		</utilization>
@@ -605,7 +605,7 @@
 			<pending_retirement>N/A</pending_retirement>
 		</retired_pages>
 		<temperature>
-			<gpu_temp>57 C</gpu_temp>
+			<gpu_temp>58 C</gpu_temp>
 			<gpu_temp_max_threshold>99 C</gpu_temp_max_threshold>
 			<gpu_temp_slow_threshold>96 C</gpu_temp_slow_threshold>
 			<gpu_temp_max_gpu_threshold>N/A</gpu_temp_max_gpu_threshold>
@@ -615,7 +615,7 @@
 		<power_readings>
 			<power_state>P2</power_state>
 			<power_management>Supported</power_management>
-			<power_draw>124.72 W</power_draw>
+			<power_draw>126.00 W</power_draw>
 			<power_limit>128.35 W</power_limit>
 			<default_power_limit>151.00 W</default_power_limit>
 			<enforced_power_limit>128.35 W</enforced_power_limit>
@@ -623,10 +623,10 @@
 			<max_power_limit>170.00 W</max_power_limit>
 		</power_readings>
 		<clocks>
-			<graphics_clock>1771 MHz</graphics_clock>
-			<sm_clock>1771 MHz</sm_clock>
+			<graphics_clock>1797 MHz</graphics_clock>
+			<sm_clock>1797 MHz</sm_clock>
 			<mem_clock>4404 MHz</mem_clock>
-			<video_clock>1582 MHz</video_clock>
+			<video_clock>1620 MHz</video_clock>
 		</clocks>
 		<applications_clocks>
 			<graphics_clock>N/A</graphics_clock>
@@ -652,9 +652,9 @@
 		<supported_clocks>N/A</supported_clocks>
 		<processes>
 			<process_info>
-				<pid>7048</pid>
+				<pid>2880</pid>
 				<type>C</type>
-				<process_name>Insufficient Permissions</process_name>
+				<process_name>C:\Users\user\Desktop\EWBF Equihash miner v0.6\miner.exe</process_name>
 				<used_memory>N/A</used_memory>
 			</process_info>
 		</processes>
@@ -718,11 +718,11 @@
 				<bridge_chip_type>N/A</bridge_chip_type>
 				<bridge_chip_fw>N/A</bridge_chip_fw>
 			</pci_bridge_chip>
-			<replay_counter>1316</replay_counter>
-			<tx_util>15000 KB/s</tx_util>
-			<rx_util>36000 KB/s</rx_util>
+			<replay_counter>7503</replay_counter>
+			<tx_util>13000 KB/s</tx_util>
+			<rx_util>27000 KB/s</rx_util>
 		</pci>
-		<fan_speed>49 %</fan_speed>
+		<fan_speed>48 %</fan_speed>
 		<performance_state>P2</performance_state>
 		<clocks_throttle_reasons>
 			<clocks_throttle_reason_gpu_idle>Not Active</clocks_throttle_reason_gpu_idle>
@@ -834,7 +834,7 @@
 		<power_readings>
 			<power_state>P2</power_state>
 			<power_management>Supported</power_management>
-			<power_draw>122.30 W</power_draw>
+			<power_draw>124.21 W</power_draw>
 			<power_limit>128.35 W</power_limit>
 			<default_power_limit>151.00 W</default_power_limit>
 			<enforced_power_limit>128.35 W</enforced_power_limit>
@@ -842,10 +842,10 @@
 			<max_power_limit>170.00 W</max_power_limit>
 		</power_readings>
 		<clocks>
-			<graphics_clock>1733 MHz</graphics_clock>
-			<sm_clock>1733 MHz</sm_clock>
+			<graphics_clock>1746 MHz</graphics_clock>
+			<sm_clock>1746 MHz</sm_clock>
 			<mem_clock>4404 MHz</mem_clock>
-			<video_clock>1556 MHz</video_clock>
+			<video_clock>1569 MHz</video_clock>
 		</clocks>
 		<applications_clocks>
 			<graphics_clock>N/A</graphics_clock>
@@ -871,9 +871,9 @@
 		<supported_clocks>N/A</supported_clocks>
 		<processes>
 			<process_info>
-				<pid>7048</pid>
+				<pid>2880</pid>
 				<type>C</type>
-				<process_name>Insufficient Permissions</process_name>
+				<process_name>C:\Users\user\Desktop\EWBF Equihash miner v0.6\miner.exe</process_name>
 				<used_memory>N/A</used_memory>
 			</process_info>
 		</processes>
@@ -938,8 +938,8 @@
 				<bridge_chip_fw>N/A</bridge_chip_fw>
 			</pci_bridge_chip>
 			<replay_counter>0</replay_counter>
-			<tx_util>13000 KB/s</tx_util>
-			<rx_util>49000 KB/s</rx_util>
+			<tx_util>18000 KB/s</tx_util>
+			<rx_util>29000 KB/s</rx_util>
 		</pci>
 		<fan_speed>53 %</fan_speed>
 		<performance_state>P2</performance_state>
@@ -967,7 +967,7 @@
 		<compute_mode>Default</compute_mode>
 		<utilization>
 			<gpu_util>100 %</gpu_util>
-			<memory_util>70 %</memory_util>
+			<memory_util>69 %</memory_util>
 			<encoder_util>0 %</encoder_util>
 			<decoder_util>0 %</decoder_util>
 		</utilization>
@@ -1053,7 +1053,7 @@
 		<power_readings>
 			<power_state>P2</power_state>
 			<power_management>Supported</power_management>
-			<power_draw>124.27 W</power_draw>
+			<power_draw>118.19 W</power_draw>
 			<power_limit>128.35 W</power_limit>
 			<default_power_limit>151.00 W</default_power_limit>
 			<enforced_power_limit>128.35 W</enforced_power_limit>
@@ -1061,10 +1061,10 @@
 			<max_power_limit>170.00 W</max_power_limit>
 		</power_readings>
 		<clocks>
-			<graphics_clock>1784 MHz</graphics_clock>
-			<sm_clock>1784 MHz</sm_clock>
+			<graphics_clock>1759 MHz</graphics_clock>
+			<sm_clock>1759 MHz</sm_clock>
 			<mem_clock>4404 MHz</mem_clock>
-			<video_clock>1594 MHz</video_clock>
+			<video_clock>1582 MHz</video_clock>
 		</clocks>
 		<applications_clocks>
 			<graphics_clock>N/A</graphics_clock>
@@ -1090,9 +1090,9 @@
 		<supported_clocks>N/A</supported_clocks>
 		<processes>
 			<process_info>
-				<pid>7048</pid>
+				<pid>2880</pid>
 				<type>C</type>
-				<process_name>Insufficient Permissions</process_name>
+				<process_name>C:\Users\user\Desktop\EWBF Equihash miner v0.6\miner.exe</process_name>
 				<used_memory>N/A</used_memory>
 			</process_info>
 		</processes>
@@ -1156,9 +1156,9 @@
 				<bridge_chip_type>N/A</bridge_chip_type>
 				<bridge_chip_fw>N/A</bridge_chip_fw>
 			</pci_bridge_chip>
-			<replay_counter>5089</replay_counter>
-			<tx_util>31000 KB/s</tx_util>
-			<rx_util>40000 KB/s</rx_util>
+			<replay_counter>5994</replay_counter>
+			<tx_util>13000 KB/s</tx_util>
+			<rx_util>37000 KB/s</rx_util>
 		</pci>
 		<fan_speed>64 %</fan_speed>
 		<performance_state>P2</performance_state>
@@ -1186,7 +1186,7 @@
 		<compute_mode>Default</compute_mode>
 		<utilization>
 			<gpu_util>100 %</gpu_util>
-			<memory_util>65 %</memory_util>
+			<memory_util>66 %</memory_util>
 			<encoder_util>0 %</encoder_util>
 			<decoder_util>0 %</decoder_util>
 		</utilization>
@@ -1272,7 +1272,7 @@
 		<power_readings>
 			<power_state>P2</power_state>
 			<power_management>Supported</power_management>
-			<power_draw>119.30 W</power_draw>
+			<power_draw>127.95 W</power_draw>
 			<power_limit>128.35 W</power_limit>
 			<default_power_limit>151.00 W</default_power_limit>
 			<enforced_power_limit>128.35 W</enforced_power_limit>
@@ -1280,10 +1280,10 @@
 			<max_power_limit>170.00 W</max_power_limit>
 		</power_readings>
 		<clocks>
-			<graphics_clock>1632 MHz</graphics_clock>
-			<sm_clock>1632 MHz</sm_clock>
+			<graphics_clock>1645 MHz</graphics_clock>
+			<sm_clock>1645 MHz</sm_clock>
 			<mem_clock>4404 MHz</mem_clock>
-			<video_clock>1468 MHz</video_clock>
+			<video_clock>1480 MHz</video_clock>
 		</clocks>
 		<applications_clocks>
 			<graphics_clock>N/A</graphics_clock>
@@ -1309,9 +1309,9 @@
 		<supported_clocks>N/A</supported_clocks>
 		<processes>
 			<process_info>
-				<pid>7048</pid>
+				<pid>2880</pid>
 				<type>C</type>
-				<process_name>Insufficient Permissions</process_name>
+				<process_name>C:\Users\user\Desktop\EWBF Equihash miner v0.6\miner.exe</process_name>
 				<used_memory>N/A</used_memory>
 			</process_info>
 		</processes>

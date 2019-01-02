@@ -15,16 +15,18 @@ def run():
     global pp,ss,ttmax,ttmin
     pp=ss=ttmasx=0
     ttmin=100
-    for x in ferma:
+    qqq=''
+    for x in ferma: #опрашиваем api удаленных машин
         try:
             r = requests.get('http://'+x+':42000/getstat', timeout=(3))
             add_array (x,r,len(r.json()["result"]))
         except requests.exceptions.RequestException:
-            send_mail('no connect '+x)     
-        
+            send_mail('no connect '+x)
+
     r=os.system("powershell -NoProfile -ExecutionPolicy ByPass -file mm_gg.ps1")
     if r != 0:
-        send_mail('Fucking powershell error')
+        send_mail('Fucking powershell ERROR')
+
 
     q='Power='+str(pp) + ' Sped='+str(ss) + ' Tmax='+str(ttmax) + ' Tmin='+str(ttmin) + '\n'
 
@@ -38,7 +40,12 @@ def run():
     qq+='<tr><td>IPADDR</td><td>Temp</td><td>Power</td><td>Hash</td><td>Ac</td><td>Rj</td></tr>'
     qq+=get_array_json()+'</table>'
     qq+='<table border=1 style="font-weight: bold;float:left"><tr><td>Name</td><td>Cooler</td><td>CPU</td><td>MEM</td><td>Temp</td><td>Watt</td><td>GPU Clock</td><td>MEM Clock</td><td>VIDEO Clock</td></tr>'
-    qq+=get_ps_xml(ferma[0]+'.xml')+get_ps_xml(ferma[1]+'.xml')+get_ps_xml(ferma[2]+'.xml')+'</table>'
+
+    for x in ferma: #собираем данные из файлов *.xml
+        if os.path.isfile(x+'.xml'):
+            qqq+=get_ps_xml(x+'.xml')
+
+    qq+=qqq+'</table>'
     qq+='</body></html>'
 
     f = open('index.html', 'w')
