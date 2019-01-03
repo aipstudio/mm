@@ -80,7 +80,7 @@ def run():
 
     #если средине показатели отклоняются - уведомляем почтой
     #if power < 1600 or hashrate < 570 or temp_max > 73 or temp_min < 40:
-    if hashrate < 390000 or temp_max > 70 or temp_min < 40:
+    if hashrate < 390000 or temp_max > 75 or temp_min < 40:
         send_mail('Fucking mining ERROR')
 
 def add_array(j,r,n): #ewbf наполнение массива элементами взятыми из api json майнеров
