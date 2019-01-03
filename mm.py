@@ -6,8 +6,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 m=[] #массив для ewbf
 ferma = [] #массив ип-адресов ригов
-pp=ss=ttmax=0
-ttmin=100
+power=hashrate=temp_max=0
+temp_min=100
 
 f = open('ip.txt')
 for line in f:
@@ -17,12 +17,11 @@ f.close()
 def run():
     Timer(600,run).start()
     m.clear()
-    global pp,ss,ttmax,ttmin
-    pp=ss=ttmasx=0
-    ttmin=100
-    qqq=''
-    rr=''
-    ss=0
+    global power,hashrate,temp_max,temp_min
+    power=hashrate=ttmasx=0
+    temp_min=100
+    claymore_table=xml_table=''
+
     for x in ferma: #ewbf опрашиваем api удаленных майнеров через get
         try:
             r = requests.get('http://'+x+':42000/getstat', timeout=(1))
@@ -40,21 +39,7 @@ def run():
             j=s.recv(2048)
             s.close()
             r=json.loads(j.decode("utf-8"))
-            m3 = r['result'][3].split(';')
-            m6 = r['result'][6].split(';')
-            for x in range(len(m3)):
-                hashrate=m3[::][x]
-                temp=m6[::2][x]
-                cooler=m6[1::2][x]
-                rr+='<tr>'
-                rr+='<td>'+hashrate+'</td>'+'<td>'+temp+'</td>'+'<td>'+cooler+'</td>'
-                rr+='</tr>'
-                ss+=int(hashrate)
-                if int(temp) > ttmax:
-                    ttmax = int(temp)
-                elif int(temp) < ttmin:
-                    ttmin = int(temp)
-                print (hashrate+' '+temp+' '+cooler)
+            claymore_table+=get_json_claymore(r)
         except:
             send_mail('no connect '+x)
             print("exception claymore")
@@ -63,54 +48,52 @@ def run():
     if r != 0:
         send_mail('Fucking powershell ERROR')
 
-
-    q='Power='+str(pp) + ' Sped='+str(ss) + ' Tmax='+str(ttmax) + ' Tmin='+str(ttmin) + '\n'
-
+    q='Power='+str(power) + ' Sped='+str(hashrate) + ' Tmax='+str(temp_max) + ' Tmin='+str(temp_min) + '\n'
     print (datetime.today())
     print (q)
 
     #сборка web страницы index.html
-    qq='<html><body style="background-color:#111111;color:#ffffff;font-weight:bold;">'
-    qq+='<p>'+str(datetime.today())+'</p><p>'+q+'</p>'
+    html='<html><body style="background-color:#111111;color:#ffffff;font-weight:bold;">'
+    html+='<p>'+str(datetime.today())+'</p><p>'+q+'</p>'
 
-    #qq+='<table border=1 style="font-weight: bold;float:left;">'
-    #qq+='<tr><td>IPADDR</td><td>Temp</td><td>Power</td><td>Hash</td><td>Ac</td><td>Rj</td></tr>'
-    #qq+=get_array_json()+'</table>'
+    #html+='<table border=1 style="font-weight: bold;float:left;">'
+    #html+='<tr><td>IPADDR</td><td>Temp</td><td>Power</td><td>Hash</td><td>Ac</td><td>Rj</td></tr>'
+    #html+=get_array_json()+'</table>'
 
-    qq+='<table border=1 style="font-weight: bold;float:left;">'
-    qq+='<tr><td>HASH</td><td>Temp</td><td>Cooler</td></tr>'
-    qq+=rr+'</table>'
+    html+='<table border=1 style="font-weight: bold;float:left;">'
+    html+='<tr><td>HASH</td><td>Temp</td><td>Cooler</td></tr>'
+    html+=claymore_table+'</table>'
 
-    qq+='<table border=1 style="font-weight: bold;float:left"><tr><td>Name</td><td>Cooler</td><td>CPU</td><td>MEM</td><td>Temp</td><td>Watt</td><td>GPU Clock</td><td>MEM Clock</td><td>VIDEO Clock</td></tr>'
+    html+='<table border=1 style="font-weight: bold;float:left"><tr><td>Name</td><td>Cooler</td><td>CPU</td><td>MEM</td><td>Temp</td><td>Watt</td><td>GPU Clock</td><td>MEM Clock</td><td>VIDEO Clock</td></tr>'
     for x in ferma: #собираем данные из файлов *.xml
         if os.path.isfile(x+'.xml'):
-            qqq+=get_ps_xml(x+'.xml')
-    qq+=qqq+'</table>'
-    qq+='</body></html>'
+            xml_table+=get_ps_xml(x+'.xml')
+    html+=xml_table+'</table>'
+    html+='</body></html>'
 
     f = open('index.html', 'w')
-    f.write(qq)
+    f.write(html)
     f.close()
 
     #если средине показатели отклоняются - уведомляем почтой
-    #if pp < 1600 or ss < 570 or ttmax > 73 or ttmin < 40:
-    if ss < 380000 or ttmax > 73 or ttmin < 40:
+    #if power < 1600 or hashrate < 570 or temp_max > 73 or temp_min < 40:
+    if hashrate < 390000 or temp_max > 70 or temp_min < 40:
         send_mail('Fucking mining ERROR')
 
 def add_array(j,r,n): #ewbf наполнение массива элементами взятыми из api json майнеров 
-    global pp,ss,ttmax,ttmin
+    global power,hashrate,temp_max,temp_min
     for i in range(n):
         t = r.json()['result'][i]['temperature']
         p = r.json()['result'][i]['gpu_power_usage']
         s = r.json()['result'][i]['speed_sps']
         acs = r.json()['result'][i]['accepted_shares']
         rjs = r.json()['result'][i]['rejected_shares']
-        if t > ttmax:
-            ttmax = t
-        elif t < ttmin:
-            ttmin = t
-        pp+=p
-        ss+=s
+        if t > temp_max:
+            temp_max = t
+        elif t < temp_min:
+            temp_min = t
+        power+=p
+        hashrate+=s
         m.append([j,t,p,s,acs,rjs])
 
 def get_array_json(): #ewbf перебор массива с данными взятыми из api майнеров и подготовка к выводу
@@ -123,6 +106,26 @@ def get_array_json(): #ewbf перебор массива с данными вз
         r+='\n'
         rr+='</tr>'
     print(r)
+    return rr
+
+def get_json_claymore(r): #claymore перебор данных json взятыми из api майнеров и подготовка к выводу
+    global power,hashrate,temp_max,temp_min
+    rr=''
+    m3 = r['result'][3].split(';')
+    m6 = r['result'][6].split(';')
+    for x in range(len(m3)):
+        hashr=m3[::][x]
+        temp=m6[::2][x]
+        cooler=m6[1::2][x]
+        rr+='<tr>'
+        rr+='<td>'+hashr+'</td>'+'<td>'+temp+'</td>'+'<td>'+cooler+'</td>'
+        rr+='</tr>'
+        hashrate+=int(hashr)
+        if int(temp) > temp_max:
+            temp_max = int(temp)
+        elif int(temp) < temp_min:
+            temp_min = int(temp)
+        print (hashr+' '+temp+' '+cooler)
     return rr
 
 def get_ps_xml(p1): #перебор элементов в xml файлах(файлы получены через powershell 5.1 через сесиию) и подготовка к выводу
@@ -153,7 +156,7 @@ def get_ps_xml(p1): #перебор элементов в xml файлах(фа�
     print (r)
     return rr
 
-def send_mail(q): #отправка уведомлений почтой
+def send_mail(p1): #отправка уведомлений почтой
     config = configparser.ConfigParser()
     config.read('config.ini', encoding='utf-8-sig')
     email_login = config.get('mail', 'username')
@@ -163,7 +166,7 @@ def send_mail(q): #отправка уведомлений почтой
     msg['From'] = email_login
     msg['To'] = email_to
     msg['Subject'] = "Warning Mining"
-    body = q
+    body = p1
     msg.attach(MIMEText(body, 'plain'))
     server = smtplib.SMTP_SSL('smtp.mail.ru', 465)
     server.login(email_login, email_pass)
