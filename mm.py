@@ -56,14 +56,17 @@ def run():
     html='<html><body style="background-color:#111111;color:#ffffff;font-weight:bold;">'
     html+='<p>'+str(datetime.today())+'</p><p>'+q+'</p>'
 
+    #сборка таблицы от ewbf
     #html+='<table border=1 style="font-weight: bold;float:left;">'
     #html+='<tr><td>IPADDR</td><td>Temp</td><td>Power</td><td>Hash</td><td>Ac</td><td>Rj</td></tr>'
     #html+=get_array_json()+'</table>'
 
+    #сборка таблицы от claymore
     html+='<table border=1 style="font-weight: bold;float:left;">'
     html+='<tr><td>HASH</td><td>Temp</td><td>Cooler</td></tr>'
     html+=claymore_table+'</table>'
 
+    #сборка таблицы от xml file nvidi-smi
     html+='<table border=1 style="font-weight: bold;float:left"><tr><td>Name</td><td>Cooler</td><td>CPU</td><td>MEM</td><td>Temp</td><td>Watt</td><td>GPU Clock</td><td>MEM Clock</td><td>VIDEO Clock</td></tr>'
     for x in ferma: #собираем данные из файлов *.xml
         if os.path.isfile(x+'.xml'):
@@ -80,7 +83,7 @@ def run():
     if hashrate < 390000 or temp_max > 70 or temp_min < 40:
         send_mail('Fucking mining ERROR')
 
-def add_array(j,r,n): #ewbf наполнение массива элементами взятыми из api json майнеров 
+def add_array(j,r,n): #ewbf наполнение массива элементами взятыми из api json майнеров
     global power,hashrate,temp_max,temp_min
     for i in range(n):
         t = r.json()['result'][i]['temperature']
@@ -109,7 +112,7 @@ def get_array_json(): #ewbf перебор массива с данными вз
     return rr
 
 def get_json_claymore(r): #claymore перебор данных json взятыми из api майнеров и подготовка к выводу
-    global power,hashrate,temp_max,temp_min
+    global hashrate,temp_max,temp_min
     rr=''
     m3 = r['result'][3].split(';')
     m6 = r['result'][6].split(';')
