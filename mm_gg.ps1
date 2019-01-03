@@ -27,10 +27,10 @@ foreach ($server in $servers) {
     Invoke-Command -ScriptBlock $sb -ThrottleLimit 50 -Session $session -ArgumentList $fn
     $sm = Invoke-Command -Session $session {$sm}
     if ($sm -eq $false) {
-        Copy-Item -Path "C:\Users\user\Desktop\mm-ewbf\nvidia-smi.exe" -Destination $path -Recurse -ToSession $session
+        Copy-Item -Path "C:\Users\user\Desktop\mm\nvidia-smi.exe" -Destination $path -Recurse -ToSession $session
         Invoke-Command -ScriptBlock $sb -ThrottleLimit 50 -Session $session -ArgumentList $fn
         }
 
-    Copy-Item -Path "C:\PS\*.xml" -Destination "C:\Users\user\Desktop\mm-ewbf\" -Recurse -Force -FromSession $session
+    Copy-Item -Path "C:\PS\*.xml" -Destination "C:\Users\user\Desktop\mm\" -Recurse -Force -FromSession $session
     Remove-PSSession $session
 }
