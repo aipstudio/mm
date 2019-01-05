@@ -18,7 +18,7 @@ def run():
     Timer(600,run).start()
     m.clear()
     global power,hashrate,temp_max,temp_min
-    power=hashrate=ttmasx=0
+    power=hashrate=temp_max=0
     temp_min=100
     claymore_table=xml_table=''
 
@@ -39,7 +39,7 @@ def run():
             j=s.recv(2048)
             s.close()
             r=json.loads(j.decode("utf-8"))
-            claymore_table+=get_json_claymore(r)
+            claymore_table+=get_json_claymore(x,r)
         except:
             send_mail('no connect '+x)
             print("exception claymore")
@@ -58,12 +58,12 @@ def run():
 
     #сборка таблицы от ewbf
     #html+='<table border=1 style="font-weight: bold;float:left;">'
-    #html+='<tr><td>IPADDR</td><td>Temp</td><td>Power</td><td>Hash</td><td>Ac</td><td>Rj</td></tr>'
+    #html+='<tr><td>IPaddr</td><td>Temp</td><td>Power</td><td>Hash</td><td>Ac</td><td>Rj</td></tr>'
     #html+=get_array_json()+'</table>'
 
     #сборка таблицы от claymore
     html+='<table border=1 style="font-weight: bold;float:left;">'
-    html+='<tr><td>HASH</td><td>Temp</td><td>Cooler</td></tr>'
+    html+='<tr><td>IPaddr</td><td>Hash</td><td>Temp</td><td>Cooler</td></tr>'
     html+=claymore_table+'</table>'
 
     #сборка таблицы от xml file nvidi-smi
@@ -80,7 +80,7 @@ def run():
 
     #если средине показатели отклоняются - уведомляем почтой
     #if power < 1600 or hashrate < 570 or temp_max > 73 or temp_min < 40:
-    if hashrate < 390000 or temp_max > 75 or temp_min < 40:
+    if hashrate < 385000 or temp_max > 75 or temp_min < 40:
         send_mail('Fucking mining ERROR')
 
 def add_array(j,r,n): #ewbf наполнение массива элементами взятыми из api json майнеров
@@ -111,7 +111,7 @@ def get_array_json(): #ewbf перебор массива с данными вз
     print(r)
     return rr
 
-def get_json_claymore(r): #claymore перебор данных json взятыми из api майнеров и подготовка к выводу
+def get_json_claymore(xx,r): #claymore перебор данных json взятыми из api майнеров и подготовка к выводу
     global hashrate,temp_max,temp_min
     rr=''
     m3 = r['result'][3].split(';')
@@ -121,7 +121,7 @@ def get_json_claymore(r): #claymore перебор данных json взяты�
         temp=m6[::2][x]
         cooler=m6[1::2][x]
         rr+='<tr>'
-        rr+='<td>'+hashr+'</td>'+'<td>'+temp+'</td>'+'<td>'+cooler+'</td>'
+        rr+='<td>'+xx+'</td><td>'+hashr+'</td><td>'+temp+'</td><td>'+cooler+'</td>'
         rr+='</tr>'
         hashrate+=int(hashr)
         if int(temp) > temp_max:
