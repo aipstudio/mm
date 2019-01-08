@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <!DOCTYPE nvidia_smi_log SYSTEM "nvsmi_device_v10.dtd">
 <nvidia_smi_log>
-	<timestamp>Wed Jan 02 07:35:52 2019</timestamp>
+	<timestamp>Tue Jan 08 10:35:37 2019</timestamp>
 	<driver_version>417.22</driver_version>
 	<cuda_version>10.0</cuda_version>
 	<attached_gpus>6</attached_gpus>
@@ -49,8 +49,8 @@
 			<pci_sub_system_id>85A01043</pci_sub_system_id>
 			<pci_gpu_link_info>
 				<pcie_gen>
-					<max_link_gen>1</max_link_gen>
-					<current_link_gen>1</current_link_gen>
+					<max_link_gen>2</max_link_gen>
+					<current_link_gen>2</current_link_gen>
 				</pcie_gen>
 				<link_widths>
 					<max_link_width>16x</max_link_width>
@@ -62,15 +62,15 @@
 				<bridge_chip_fw>N/A</bridge_chip_fw>
 			</pci_bridge_chip>
 			<replay_counter>0</replay_counter>
-			<tx_util>17000 KB/s</tx_util>
-			<rx_util>47000 KB/s</rx_util>
+			<tx_util>28000 KB/s</tx_util>
+			<rx_util>75000 KB/s</rx_util>
 		</pci>
-		<fan_speed>48 %</fan_speed>
+		<fan_speed>61 %</fan_speed>
 		<performance_state>P2</performance_state>
 		<clocks_throttle_reasons>
 			<clocks_throttle_reason_gpu_idle>Not Active</clocks_throttle_reason_gpu_idle>
 			<clocks_throttle_reason_applications_clocks_setting>Not Active</clocks_throttle_reason_applications_clocks_setting>
-			<clocks_throttle_reason_sw_power_cap>Not Active</clocks_throttle_reason_sw_power_cap>
+			<clocks_throttle_reason_sw_power_cap>Active</clocks_throttle_reason_sw_power_cap>
 			<clocks_throttle_reason_hw_slowdown>Not Active</clocks_throttle_reason_hw_slowdown>
 			<clocks_throttle_reason_hw_thermal_slowdown>Not Active</clocks_throttle_reason_hw_thermal_slowdown>
 			<clocks_throttle_reason_hw_power_brake_slowdown>Not Active</clocks_throttle_reason_hw_power_brake_slowdown>
@@ -80,8 +80,8 @@
 		</clocks_throttle_reasons>
 		<fb_memory_usage>
 			<total>8192 MiB</total>
-			<used>1808 MiB</used>
-			<free>6384 MiB</free>
+			<used>3147 MiB</used>
+			<free>5045 MiB</free>
 		</fb_memory_usage>
 		<bar1_memory_usage>
 			<total>256 MiB</total>
@@ -90,8 +90,8 @@
 		</bar1_memory_usage>
 		<compute_mode>Default</compute_mode>
 		<utilization>
-			<gpu_util>100 %</gpu_util>
-			<memory_util>69 %</memory_util>
+			<gpu_util>35 %</gpu_util>
+			<memory_util>38 %</memory_util>
 			<encoder_util>0 %</encoder_util>
 			<decoder_util>0 %</decoder_util>
 		</utilization>
@@ -167,7 +167,7 @@
 			<pending_retirement>N/A</pending_retirement>
 		</retired_pages>
 		<temperature>
-			<gpu_temp>55 C</gpu_temp>
+			<gpu_temp>62 C</gpu_temp>
 			<gpu_temp_max_threshold>99 C</gpu_temp_max_threshold>
 			<gpu_temp_slow_threshold>96 C</gpu_temp_slow_threshold>
 			<gpu_temp_max_gpu_threshold>N/A</gpu_temp_max_gpu_threshold>
@@ -177,7 +177,7 @@
 		<power_readings>
 			<power_state>P2</power_state>
 			<power_management>Supported</power_management>
-			<power_draw>135.67 W</power_draw>
+			<power_draw>76.80 W</power_draw>
 			<power_limit>128.35 W</power_limit>
 			<default_power_limit>151.00 W</default_power_limit>
 			<enforced_power_limit>128.35 W</enforced_power_limit>
@@ -185,10 +185,10 @@
 			<max_power_limit>170.00 W</max_power_limit>
 		</power_readings>
 		<clocks>
-			<graphics_clock>1771 MHz</graphics_clock>
-			<sm_clock>1771 MHz</sm_clock>
+			<graphics_clock>1847 MHz</graphics_clock>
+			<sm_clock>1847 MHz</sm_clock>
 			<mem_clock>4404 MHz</mem_clock>
-			<video_clock>1594 MHz</video_clock>
+			<video_clock>1657 MHz</video_clock>
 		</clocks>
 		<applications_clocks>
 			<graphics_clock>N/A</graphics_clock>
@@ -214,9 +214,9 @@
 		<supported_clocks>N/A</supported_clocks>
 		<processes>
 			<process_info>
-				<pid>2880</pid>
+				<pid>5972</pid>
 				<type>C</type>
-				<process_name>C:\Users\user\Desktop\EWBF Equihash miner v0.6\miner.exe</process_name>
+				<process_name>Insufficient Permissions</process_name>
 				<used_memory>N/A</used_memory>
 			</process_info>
 		</processes>
@@ -268,8 +268,8 @@
 			<pci_sub_system_id>85A01043</pci_sub_system_id>
 			<pci_gpu_link_info>
 				<pcie_gen>
-					<max_link_gen>3</max_link_gen>
-					<current_link_gen>3</current_link_gen>
+					<max_link_gen>2</max_link_gen>
+					<current_link_gen>2</current_link_gen>
 				</pcie_gen>
 				<link_widths>
 					<max_link_width>16x</max_link_width>
@@ -280,16 +280,16 @@
 				<bridge_chip_type>N/A</bridge_chip_type>
 				<bridge_chip_fw>N/A</bridge_chip_fw>
 			</pci_bridge_chip>
-			<replay_counter>194</replay_counter>
-			<tx_util>16000 KB/s</tx_util>
-			<rx_util>35000 KB/s</rx_util>
+			<replay_counter>0</replay_counter>
+			<tx_util>13000 KB/s</tx_util>
+			<rx_util>75000 KB/s</rx_util>
 		</pci>
-		<fan_speed>53 %</fan_speed>
+		<fan_speed>61 %</fan_speed>
 		<performance_state>P2</performance_state>
 		<clocks_throttle_reasons>
 			<clocks_throttle_reason_gpu_idle>Not Active</clocks_throttle_reason_gpu_idle>
 			<clocks_throttle_reason_applications_clocks_setting>Not Active</clocks_throttle_reason_applications_clocks_setting>
-			<clocks_throttle_reason_sw_power_cap>Not Active</clocks_throttle_reason_sw_power_cap>
+			<clocks_throttle_reason_sw_power_cap>Active</clocks_throttle_reason_sw_power_cap>
 			<clocks_throttle_reason_hw_slowdown>Not Active</clocks_throttle_reason_hw_slowdown>
 			<clocks_throttle_reason_hw_thermal_slowdown>Not Active</clocks_throttle_reason_hw_thermal_slowdown>
 			<clocks_throttle_reason_hw_power_brake_slowdown>Not Active</clocks_throttle_reason_hw_power_brake_slowdown>
@@ -299,8 +299,8 @@
 		</clocks_throttle_reasons>
 		<fb_memory_usage>
 			<total>8192 MiB</total>
-			<used>1808 MiB</used>
-			<free>6384 MiB</free>
+			<used>3147 MiB</used>
+			<free>5045 MiB</free>
 		</fb_memory_usage>
 		<bar1_memory_usage>
 			<total>256 MiB</total>
@@ -309,8 +309,8 @@
 		</bar1_memory_usage>
 		<compute_mode>Default</compute_mode>
 		<utilization>
-			<gpu_util>100 %</gpu_util>
-			<memory_util>67 %</memory_util>
+			<gpu_util>80 %</gpu_util>
+			<memory_util>94 %</memory_util>
 			<encoder_util>0 %</encoder_util>
 			<decoder_util>0 %</decoder_util>
 		</utilization>
@@ -386,7 +386,7 @@
 			<pending_retirement>N/A</pending_retirement>
 		</retired_pages>
 		<temperature>
-			<gpu_temp>57 C</gpu_temp>
+			<gpu_temp>62 C</gpu_temp>
 			<gpu_temp_max_threshold>99 C</gpu_temp_max_threshold>
 			<gpu_temp_slow_threshold>96 C</gpu_temp_slow_threshold>
 			<gpu_temp_max_gpu_threshold>N/A</gpu_temp_max_gpu_threshold>
@@ -396,7 +396,7 @@
 		<power_readings>
 			<power_state>P2</power_state>
 			<power_management>Supported</power_management>
-			<power_draw>129.65 W</power_draw>
+			<power_draw>141.21 W</power_draw>
 			<power_limit>128.35 W</power_limit>
 			<default_power_limit>151.00 W</default_power_limit>
 			<enforced_power_limit>128.35 W</enforced_power_limit>
@@ -404,10 +404,10 @@
 			<max_power_limit>170.00 W</max_power_limit>
 		</power_readings>
 		<clocks>
-			<graphics_clock>1733 MHz</graphics_clock>
-			<sm_clock>1733 MHz</sm_clock>
+			<graphics_clock>1797 MHz</graphics_clock>
+			<sm_clock>1797 MHz</sm_clock>
 			<mem_clock>4404 MHz</mem_clock>
-			<video_clock>1556 MHz</video_clock>
+			<video_clock>1620 MHz</video_clock>
 		</clocks>
 		<applications_clocks>
 			<graphics_clock>N/A</graphics_clock>
@@ -433,9 +433,9 @@
 		<supported_clocks>N/A</supported_clocks>
 		<processes>
 			<process_info>
-				<pid>2880</pid>
+				<pid>5972</pid>
 				<type>C</type>
-				<process_name>C:\Users\user\Desktop\EWBF Equihash miner v0.6\miner.exe</process_name>
+				<process_name>Insufficient Permissions</process_name>
 				<used_memory>N/A</used_memory>
 			</process_info>
 		</processes>
@@ -487,8 +487,8 @@
 			<pci_sub_system_id>85A01043</pci_sub_system_id>
 			<pci_gpu_link_info>
 				<pcie_gen>
-					<max_link_gen>3</max_link_gen>
-					<current_link_gen>3</current_link_gen>
+					<max_link_gen>2</max_link_gen>
+					<current_link_gen>2</current_link_gen>
 				</pcie_gen>
 				<link_widths>
 					<max_link_width>16x</max_link_width>
@@ -499,16 +499,16 @@
 				<bridge_chip_type>N/A</bridge_chip_type>
 				<bridge_chip_fw>N/A</bridge_chip_fw>
 			</pci_bridge_chip>
-			<replay_counter>65535</replay_counter>
-			<tx_util>12000 KB/s</tx_util>
-			<rx_util>36000 KB/s</rx_util>
+			<replay_counter>0</replay_counter>
+			<tx_util>15000 KB/s</tx_util>
+			<rx_util>46000 KB/s</rx_util>
 		</pci>
-		<fan_speed>55 %</fan_speed>
+		<fan_speed>64 %</fan_speed>
 		<performance_state>P2</performance_state>
 		<clocks_throttle_reasons>
 			<clocks_throttle_reason_gpu_idle>Not Active</clocks_throttle_reason_gpu_idle>
 			<clocks_throttle_reason_applications_clocks_setting>Not Active</clocks_throttle_reason_applications_clocks_setting>
-			<clocks_throttle_reason_sw_power_cap>Not Active</clocks_throttle_reason_sw_power_cap>
+			<clocks_throttle_reason_sw_power_cap>Active</clocks_throttle_reason_sw_power_cap>
 			<clocks_throttle_reason_hw_slowdown>Not Active</clocks_throttle_reason_hw_slowdown>
 			<clocks_throttle_reason_hw_thermal_slowdown>Not Active</clocks_throttle_reason_hw_thermal_slowdown>
 			<clocks_throttle_reason_hw_power_brake_slowdown>Not Active</clocks_throttle_reason_hw_power_brake_slowdown>
@@ -518,8 +518,8 @@
 		</clocks_throttle_reasons>
 		<fb_memory_usage>
 			<total>8192 MiB</total>
-			<used>1808 MiB</used>
-			<free>6384 MiB</free>
+			<used>3147 MiB</used>
+			<free>5045 MiB</free>
 		</fb_memory_usage>
 		<bar1_memory_usage>
 			<total>256 MiB</total>
@@ -528,8 +528,8 @@
 		</bar1_memory_usage>
 		<compute_mode>Default</compute_mode>
 		<utilization>
-			<gpu_util>100 %</gpu_util>
-			<memory_util>71 %</memory_util>
+			<gpu_util>81 %</gpu_util>
+			<memory_util>93 %</memory_util>
 			<encoder_util>0 %</encoder_util>
 			<decoder_util>0 %</decoder_util>
 		</utilization>
@@ -605,7 +605,7 @@
 			<pending_retirement>N/A</pending_retirement>
 		</retired_pages>
 		<temperature>
-			<gpu_temp>58 C</gpu_temp>
+			<gpu_temp>64 C</gpu_temp>
 			<gpu_temp_max_threshold>99 C</gpu_temp_max_threshold>
 			<gpu_temp_slow_threshold>96 C</gpu_temp_slow_threshold>
 			<gpu_temp_max_gpu_threshold>N/A</gpu_temp_max_gpu_threshold>
@@ -615,7 +615,7 @@
 		<power_readings>
 			<power_state>P2</power_state>
 			<power_management>Supported</power_management>
-			<power_draw>126.00 W</power_draw>
+			<power_draw>126.22 W</power_draw>
 			<power_limit>128.35 W</power_limit>
 			<default_power_limit>151.00 W</default_power_limit>
 			<enforced_power_limit>128.35 W</enforced_power_limit>
@@ -623,10 +623,10 @@
 			<max_power_limit>170.00 W</max_power_limit>
 		</power_readings>
 		<clocks>
-			<graphics_clock>1797 MHz</graphics_clock>
-			<sm_clock>1797 MHz</sm_clock>
+			<graphics_clock>1885 MHz</graphics_clock>
+			<sm_clock>1885 MHz</sm_clock>
 			<mem_clock>4404 MHz</mem_clock>
-			<video_clock>1620 MHz</video_clock>
+			<video_clock>1695 MHz</video_clock>
 		</clocks>
 		<applications_clocks>
 			<graphics_clock>N/A</graphics_clock>
@@ -652,9 +652,9 @@
 		<supported_clocks>N/A</supported_clocks>
 		<processes>
 			<process_info>
-				<pid>2880</pid>
+				<pid>5972</pid>
 				<type>C</type>
-				<process_name>C:\Users\user\Desktop\EWBF Equihash miner v0.6\miner.exe</process_name>
+				<process_name>Insufficient Permissions</process_name>
 				<used_memory>N/A</used_memory>
 			</process_info>
 		</processes>
@@ -706,8 +706,8 @@
 			<pci_sub_system_id>85A01043</pci_sub_system_id>
 			<pci_gpu_link_info>
 				<pcie_gen>
-					<max_link_gen>3</max_link_gen>
-					<current_link_gen>3</current_link_gen>
+					<max_link_gen>2</max_link_gen>
+					<current_link_gen>2</current_link_gen>
 				</pcie_gen>
 				<link_widths>
 					<max_link_width>16x</max_link_width>
@@ -718,11 +718,11 @@
 				<bridge_chip_type>N/A</bridge_chip_type>
 				<bridge_chip_fw>N/A</bridge_chip_fw>
 			</pci_bridge_chip>
-			<replay_counter>7503</replay_counter>
-			<tx_util>13000 KB/s</tx_util>
-			<rx_util>27000 KB/s</rx_util>
+			<replay_counter>0</replay_counter>
+			<tx_util>14000 KB/s</tx_util>
+			<rx_util>40000 KB/s</rx_util>
 		</pci>
-		<fan_speed>48 %</fan_speed>
+		<fan_speed>55 %</fan_speed>
 		<performance_state>P2</performance_state>
 		<clocks_throttle_reasons>
 			<clocks_throttle_reason_gpu_idle>Not Active</clocks_throttle_reason_gpu_idle>
@@ -737,8 +737,8 @@
 		</clocks_throttle_reasons>
 		<fb_memory_usage>
 			<total>8192 MiB</total>
-			<used>1808 MiB</used>
-			<free>6384 MiB</free>
+			<used>3147 MiB</used>
+			<free>5045 MiB</free>
 		</fb_memory_usage>
 		<bar1_memory_usage>
 			<total>256 MiB</total>
@@ -747,8 +747,8 @@
 		</bar1_memory_usage>
 		<compute_mode>Default</compute_mode>
 		<utilization>
-			<gpu_util>100 %</gpu_util>
-			<memory_util>69 %</memory_util>
+			<gpu_util>97 %</gpu_util>
+			<memory_util>100 %</memory_util>
 			<encoder_util>0 %</encoder_util>
 			<decoder_util>0 %</decoder_util>
 		</utilization>
@@ -824,7 +824,7 @@
 			<pending_retirement>N/A</pending_retirement>
 		</retired_pages>
 		<temperature>
-			<gpu_temp>56 C</gpu_temp>
+			<gpu_temp>59 C</gpu_temp>
 			<gpu_temp_max_threshold>99 C</gpu_temp_max_threshold>
 			<gpu_temp_slow_threshold>96 C</gpu_temp_slow_threshold>
 			<gpu_temp_max_gpu_threshold>N/A</gpu_temp_max_gpu_threshold>
@@ -834,7 +834,7 @@
 		<power_readings>
 			<power_state>P2</power_state>
 			<power_management>Supported</power_management>
-			<power_draw>124.21 W</power_draw>
+			<power_draw>132.03 W</power_draw>
 			<power_limit>128.35 W</power_limit>
 			<default_power_limit>151.00 W</default_power_limit>
 			<enforced_power_limit>128.35 W</enforced_power_limit>
@@ -842,10 +842,10 @@
 			<max_power_limit>170.00 W</max_power_limit>
 		</power_readings>
 		<clocks>
-			<graphics_clock>1746 MHz</graphics_clock>
-			<sm_clock>1746 MHz</sm_clock>
+			<graphics_clock>1860 MHz</graphics_clock>
+			<sm_clock>1860 MHz</sm_clock>
 			<mem_clock>4404 MHz</mem_clock>
-			<video_clock>1569 MHz</video_clock>
+			<video_clock>1683 MHz</video_clock>
 		</clocks>
 		<applications_clocks>
 			<graphics_clock>N/A</graphics_clock>
@@ -871,9 +871,9 @@
 		<supported_clocks>N/A</supported_clocks>
 		<processes>
 			<process_info>
-				<pid>2880</pid>
+				<pid>5972</pid>
 				<type>C</type>
-				<process_name>C:\Users\user\Desktop\EWBF Equihash miner v0.6\miner.exe</process_name>
+				<process_name>Insufficient Permissions</process_name>
 				<used_memory>N/A</used_memory>
 			</process_info>
 		</processes>
@@ -925,8 +925,8 @@
 			<pci_sub_system_id>85A01043</pci_sub_system_id>
 			<pci_gpu_link_info>
 				<pcie_gen>
-					<max_link_gen>3</max_link_gen>
-					<current_link_gen>3</current_link_gen>
+					<max_link_gen>2</max_link_gen>
+					<current_link_gen>2</current_link_gen>
 				</pcie_gen>
 				<link_widths>
 					<max_link_width>16x</max_link_width>
@@ -938,15 +938,15 @@
 				<bridge_chip_fw>N/A</bridge_chip_fw>
 			</pci_bridge_chip>
 			<replay_counter>0</replay_counter>
-			<tx_util>18000 KB/s</tx_util>
-			<rx_util>29000 KB/s</rx_util>
+			<tx_util>14000 KB/s</tx_util>
+			<rx_util>121000 KB/s</rx_util>
 		</pci>
-		<fan_speed>53 %</fan_speed>
+		<fan_speed>61 %</fan_speed>
 		<performance_state>P2</performance_state>
 		<clocks_throttle_reasons>
 			<clocks_throttle_reason_gpu_idle>Not Active</clocks_throttle_reason_gpu_idle>
 			<clocks_throttle_reason_applications_clocks_setting>Not Active</clocks_throttle_reason_applications_clocks_setting>
-			<clocks_throttle_reason_sw_power_cap>Active</clocks_throttle_reason_sw_power_cap>
+			<clocks_throttle_reason_sw_power_cap>Not Active</clocks_throttle_reason_sw_power_cap>
 			<clocks_throttle_reason_hw_slowdown>Not Active</clocks_throttle_reason_hw_slowdown>
 			<clocks_throttle_reason_hw_thermal_slowdown>Not Active</clocks_throttle_reason_hw_thermal_slowdown>
 			<clocks_throttle_reason_hw_power_brake_slowdown>Not Active</clocks_throttle_reason_hw_power_brake_slowdown>
@@ -956,8 +956,8 @@
 		</clocks_throttle_reasons>
 		<fb_memory_usage>
 			<total>8192 MiB</total>
-			<used>1808 MiB</used>
-			<free>6384 MiB</free>
+			<used>3147 MiB</used>
+			<free>5045 MiB</free>
 		</fb_memory_usage>
 		<bar1_memory_usage>
 			<total>256 MiB</total>
@@ -966,8 +966,8 @@
 		</bar1_memory_usage>
 		<compute_mode>Default</compute_mode>
 		<utilization>
-			<gpu_util>100 %</gpu_util>
-			<memory_util>69 %</memory_util>
+			<gpu_util>98 %</gpu_util>
+			<memory_util>100 %</memory_util>
 			<encoder_util>0 %</encoder_util>
 			<decoder_util>0 %</decoder_util>
 		</utilization>
@@ -1043,7 +1043,7 @@
 			<pending_retirement>N/A</pending_retirement>
 		</retired_pages>
 		<temperature>
-			<gpu_temp>57 C</gpu_temp>
+			<gpu_temp>63 C</gpu_temp>
 			<gpu_temp_max_threshold>99 C</gpu_temp_max_threshold>
 			<gpu_temp_slow_threshold>96 C</gpu_temp_slow_threshold>
 			<gpu_temp_max_gpu_threshold>N/A</gpu_temp_max_gpu_threshold>
@@ -1053,7 +1053,7 @@
 		<power_readings>
 			<power_state>P2</power_state>
 			<power_management>Supported</power_management>
-			<power_draw>118.19 W</power_draw>
+			<power_draw>131.40 W</power_draw>
 			<power_limit>128.35 W</power_limit>
 			<default_power_limit>151.00 W</default_power_limit>
 			<enforced_power_limit>128.35 W</enforced_power_limit>
@@ -1061,10 +1061,10 @@
 			<max_power_limit>170.00 W</max_power_limit>
 		</power_readings>
 		<clocks>
-			<graphics_clock>1759 MHz</graphics_clock>
-			<sm_clock>1759 MHz</sm_clock>
+			<graphics_clock>1873 MHz</graphics_clock>
+			<sm_clock>1873 MHz</sm_clock>
 			<mem_clock>4404 MHz</mem_clock>
-			<video_clock>1582 MHz</video_clock>
+			<video_clock>1683 MHz</video_clock>
 		</clocks>
 		<applications_clocks>
 			<graphics_clock>N/A</graphics_clock>
@@ -1090,9 +1090,9 @@
 		<supported_clocks>N/A</supported_clocks>
 		<processes>
 			<process_info>
-				<pid>2880</pid>
+				<pid>5972</pid>
 				<type>C</type>
-				<process_name>C:\Users\user\Desktop\EWBF Equihash miner v0.6\miner.exe</process_name>
+				<process_name>Insufficient Permissions</process_name>
 				<used_memory>N/A</used_memory>
 			</process_info>
 		</processes>
@@ -1144,8 +1144,8 @@
 			<pci_sub_system_id>85A01043</pci_sub_system_id>
 			<pci_gpu_link_info>
 				<pcie_gen>
-					<max_link_gen>3</max_link_gen>
-					<current_link_gen>3</current_link_gen>
+					<max_link_gen>2</max_link_gen>
+					<current_link_gen>2</current_link_gen>
 				</pcie_gen>
 				<link_widths>
 					<max_link_width>16x</max_link_width>
@@ -1156,16 +1156,16 @@
 				<bridge_chip_type>N/A</bridge_chip_type>
 				<bridge_chip_fw>N/A</bridge_chip_fw>
 			</pci_bridge_chip>
-			<replay_counter>5994</replay_counter>
-			<tx_util>13000 KB/s</tx_util>
-			<rx_util>37000 KB/s</rx_util>
+			<replay_counter>0</replay_counter>
+			<tx_util>19000 KB/s</tx_util>
+			<rx_util>19000 KB/s</rx_util>
 		</pci>
-		<fan_speed>64 %</fan_speed>
+		<fan_speed>66 %</fan_speed>
 		<performance_state>P2</performance_state>
 		<clocks_throttle_reasons>
 			<clocks_throttle_reason_gpu_idle>Not Active</clocks_throttle_reason_gpu_idle>
 			<clocks_throttle_reason_applications_clocks_setting>Not Active</clocks_throttle_reason_applications_clocks_setting>
-			<clocks_throttle_reason_sw_power_cap>Not Active</clocks_throttle_reason_sw_power_cap>
+			<clocks_throttle_reason_sw_power_cap>Active</clocks_throttle_reason_sw_power_cap>
 			<clocks_throttle_reason_hw_slowdown>Not Active</clocks_throttle_reason_hw_slowdown>
 			<clocks_throttle_reason_hw_thermal_slowdown>Not Active</clocks_throttle_reason_hw_thermal_slowdown>
 			<clocks_throttle_reason_hw_power_brake_slowdown>Not Active</clocks_throttle_reason_hw_power_brake_slowdown>
@@ -1175,8 +1175,8 @@
 		</clocks_throttle_reasons>
 		<fb_memory_usage>
 			<total>8192 MiB</total>
-			<used>1808 MiB</used>
-			<free>6384 MiB</free>
+			<used>3147 MiB</used>
+			<free>5045 MiB</free>
 		</fb_memory_usage>
 		<bar1_memory_usage>
 			<total>256 MiB</total>
@@ -1185,8 +1185,8 @@
 		</bar1_memory_usage>
 		<compute_mode>Default</compute_mode>
 		<utilization>
-			<gpu_util>100 %</gpu_util>
-			<memory_util>66 %</memory_util>
+			<gpu_util>92 %</gpu_util>
+			<memory_util>100 %</memory_util>
 			<encoder_util>0 %</encoder_util>
 			<decoder_util>0 %</decoder_util>
 		</utilization>
@@ -1262,7 +1262,7 @@
 			<pending_retirement>N/A</pending_retirement>
 		</retired_pages>
 		<temperature>
-			<gpu_temp>61 C</gpu_temp>
+			<gpu_temp>67 C</gpu_temp>
 			<gpu_temp_max_threshold>99 C</gpu_temp_max_threshold>
 			<gpu_temp_slow_threshold>96 C</gpu_temp_slow_threshold>
 			<gpu_temp_max_gpu_threshold>N/A</gpu_temp_max_gpu_threshold>
@@ -1272,16 +1272,16 @@
 		<power_readings>
 			<power_state>P2</power_state>
 			<power_management>Supported</power_management>
-			<power_draw>127.95 W</power_draw>
-			<power_limit>128.35 W</power_limit>
+			<power_draw>87.93 W</power_draw>
+			<power_limit>120.80 W</power_limit>
 			<default_power_limit>151.00 W</default_power_limit>
-			<enforced_power_limit>128.35 W</enforced_power_limit>
+			<enforced_power_limit>120.80 W</enforced_power_limit>
 			<min_power_limit>75.00 W</min_power_limit>
 			<max_power_limit>170.00 W</max_power_limit>
 		</power_readings>
 		<clocks>
-			<graphics_clock>1645 MHz</graphics_clock>
-			<sm_clock>1645 MHz</sm_clock>
+			<graphics_clock>1657 MHz</graphics_clock>
+			<sm_clock>1657 MHz</sm_clock>
 			<mem_clock>4404 MHz</mem_clock>
 			<video_clock>1480 MHz</video_clock>
 		</clocks>
@@ -1309,9 +1309,9 @@
 		<supported_clocks>N/A</supported_clocks>
 		<processes>
 			<process_info>
-				<pid>2880</pid>
+				<pid>5972</pid>
 				<type>C</type>
-				<process_name>C:\Users\user\Desktop\EWBF Equihash miner v0.6\miner.exe</process_name>
+				<process_name>Insufficient Permissions</process_name>
 				<used_memory>N/A</used_memory>
 			</process_info>
 		</processes>

@@ -22,14 +22,13 @@ def run():
     temp_min=100
     claymore_table=xml_table=''
 
-    for x in ferma: #ewbf опрашиваем api удаленных майнеров через get 
-        try:
-            r = requests.get('http://'+x+':42000/getstat', timeout=(1))
-            add_array (x,r,len(r.json()["result"]))
-        except requests.exceptions.RequestException:
-            #send_mail('no connect '+x)
-            #print("exception ewbf")
-            exit
+    #for x in ferma: #ewbf опрашиваем api удаленных майнеров через get 
+    #    try:
+    #        r = requests.get('http://'+x+':42000/getstat', timeout=(1))
+    #        add_array (x,r,len(r.json()["result"]))
+    #    except requests.exceptions.RequestException:
+    #        send_mail('no connect '+x)
+    #        print("exception ewbf")
 
     for x in ferma: #claymore опрашиваем api удаленных майнеров через сокет
         try:
@@ -48,7 +47,8 @@ def run():
     if r != 0:
         send_mail('Fucking powershell ERROR')
 
-    q='Power='+str(power) + ' Sped='+str(hashrate) + ' Tmax='+str(temp_max) + ' Tmin='+str(temp_min) + '\n'
+#    q='Power='+str(power) + ' Sped='+str(hashrate) + ' Tmax='+str(temp_max) + ' Tmin='+str(temp_min) + '\n'
+    q='Sped='+str(hashrate) + ' Tmax='+str(temp_max) + ' Tmin='+str(temp_min) + '\n'
     print (datetime.today())
     print (q)
 
@@ -79,9 +79,9 @@ def run():
     f.close()
 
     #если средине показатели отклоняются - уведомляем почтой
-    #if power < 1600 or hashrate < 570 or temp_max > 73 or temp_min < 40:
-    if hashrate < 385000 or temp_max > 75 or temp_min < 40:
-        send_mail('Fucking mining ERROR')
+    #if power < 1600 or hashrate < 570 or temp_max > 73 or temp_min < 40: #for ewbf BTG
+    if hashrate < 385000 or temp_max > 75 or temp_min < 40: #for claymore ETH
+        send_mail(q)
 
 def add_array(j,r,n): #ewbf наполнение массива элементами взятыми из api json майнеров
     global power,hashrate,temp_max,temp_min
@@ -99,7 +99,7 @@ def add_array(j,r,n): #ewbf наполнение массива элемента
         hashrate+=s
         m.append([j,t,p,s,acs,rjs])
 
-def get_array_json(): #ewbf перебор массива с данными взятыми из api майнеров и подготовка к выводу
+def sget_array_json(): #ewbf перебор массива с данными взятыми из api майнеров и подготовка к выводу
     rr=r=''
     for row in m:
         rr+='<tr>'
