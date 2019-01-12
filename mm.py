@@ -22,7 +22,7 @@ def run():
     temp_min=100
     claymore_table=xml_table=''
 
-    #for x in ferma: #ewbf опрашиваем api удаленных майнеров через get 
+    #for x in ferma: #ewbf опрашиваем api удаленных майнеров через get
     #    try:
     #        r = requests.get('http://'+x+':42000/getstat', timeout=(1))
     #        add_array (x,r,len(r.json()["result"]))
@@ -48,7 +48,7 @@ def run():
         send_mail('Fucking powershell ERROR')
 
 #    q='Power='+str(power) + ' Sped='+str(hashrate) + ' Tmax='+str(temp_max) + ' Tmin='+str(temp_min) + '\n'
-    q='Sped='+str(hashrate) + ' Tmax='+str(temp_max) + ' Tmin='+str(temp_min) + '\n'
+    q='Sped='+str(hashrate)+' Tmax='+str(temp_max) + ' Tmin='+str(temp_min) + '\n'
     print (datetime.today())
     print (q)
 
