@@ -48,7 +48,7 @@ def run():
         send_mail('Fucking powershell ERROR')
 
 #    q='Power='+str(power) + ' Sped='+str(hashrate) + ' Tmax='+str(temp_max) + ' Tmin='+str(temp_min) + '\n'
-    q='Sped='+str(hashrate)+' Tmax='+str(temp_max) + ' Tmin='+str(temp_min) + '\n'
+    q='Sped='+str(hashrate)+' Tmax='+str(temp_max)+' Tmin='+str(temp_min)+'\n'
     print (datetime.today())
     print (q)
 
