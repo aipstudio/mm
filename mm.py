@@ -99,7 +99,7 @@ def add_array(j,r,n): #ewbf наполнение массива элемента
         hashrate+=s
         m.append([j,t,p,s,acs,rjs])
 
-def sget_array_json(): #ewbf перебор массива с данными взятыми из api майнеров и подготовка к выводу
+def get_array_json(): #ewbf перебор массива с данными взятыми из api майнеров и подготовка к выводу
     rr=r=''
     for row in m:
         rr+='<tr>'
