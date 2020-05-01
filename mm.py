@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+from flask import Flask
 import requests
 import configparser
 import os
@@ -7,15 +8,12 @@ import smtplib
 import json
 import socket
 import xml.etree.ElementTree as ET
-import http.server as BaseHTTPServer
-import http.server as CGIHTTPServer
 import threading
 from datetime import datetime
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 m = []  # массив для ewbf
 ferma = []  # массив ип-адресов ригов
 power = hashrate = temp_max = 0
+result_html = ''
 temp_min = 100
 
 f = open('ip.txt')
@@ -27,7 +25,7 @@ f.close()
 def run():
     threading.Timer(600, run).start()
     m.clear()
-    global power, hashrate, temp_max, temp_min
+    global power, hashrate, temp_max, temp_min, result_html
     power = hashrate = temp_max = 0
     temp_min = 100
     claymore_table = xml_table = ''
@@ -44,21 +42,24 @@ def run():
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((x, 3333))
-            s.send('{"id":0,"jsonrpc":"2.0","method":"miner_getstat1"}'.encode("utf-8"))
+            s.send(
+                '{"id":0,"jsonrpc":"2.0","method":"miner_getstat1"}'.encode("utf-8"))
             j = s.recv(2048)
             s.close()
             r = json.loads(j.decode("utf-8"))
             claymore_table += get_json_claymore(x, r)
         except:
-            send_mail('no connect '+x)
+            send_discord('no connect '+x)
             print("exception claymore")
 
-    r = os.system("powershell -NoProfile -ExecutionPolicy ByPass -file mm_gg.ps1")
+    r = os.system(
+        "powershell -NoProfile -ExecutionPolicy ByPass -file mm_gg.ps1")
     if r != 0:
-        send_mail('Fucking powershell ERROR')
+        send_discord('Fucking powershell ERROR')
 
     #q='Power='+str(power) + ' Sped='+str(hashrate) + ' Tmax='+str(temp_max) + ' Tmin='+str(temp_min) + '\n'
-    q = 'Sped='+str(hashrate)+' Tmax='+str(temp_max) + ' Tmin='+str(temp_min)+'\n'
+    q = 'Sped='+str(hashrate)+' Tmax='+str(temp_max) + \
+        ' Tmin='+str(temp_min)+'\n'
     print(datetime.today())
     print(q)
 
@@ -88,10 +89,11 @@ def run():
     f.write(html)
     f.close()
 
-    # если средине показатели отклоняются - уведомляем почтой
-    # if power < 1600 or hashrate < 570 or temp_max > 73 or temp_min < 40: #for ewbf BTG
-    if hashrate < 385000 or temp_max > 75 or temp_min < 40:  # for claymore ETH
+    result_html = html
+
+    if hashrate < 375000 or temp_max > 75 or temp_min < 40:  # for claymore ETH
         send_discord(q)
+
 
 def add_array(j, r, n):  # ewbf наполнение массива элементами взятыми из api json майнеров
     global power, hashrate, temp_max, temp_min
@@ -109,6 +111,7 @@ def add_array(j, r, n):  # ewbf наполнение массива элемен
         hashrate += s
         m.append([j, t, p, s, acs, rjs])
 
+
 def get_array_json():  # ewbf перебор массива с данными взятыми из api майнеров и подготовка к выводу
     rr = r = ''
     for row in m:
@@ -124,7 +127,7 @@ def get_array_json():  # ewbf перебор массива с данными в
 
 # claymore перебор данных json взятыми из api майнеров и подготовка к выводу
 def get_json_claymore(xx, r):
-    global hashrate, temp_max, temp_min
+    global hashrate, temp_max, temp_min, hashr, temp, cooler
     rr = ''
     m3 = r['result'][3].split(';')
     m6 = r['result'][6].split(';')
@@ -174,25 +177,6 @@ def get_ps_xml(p1):  # перебор элементов в xml файлах(ф�
     return rr
 
 
-def send_mail(p1):  # отправка уведомлений почтой
-    config = configparser.ConfigParser()
-    config.read('config.ini', encoding='utf-8-sig')
-    email_login = config.get('mail', 'username')
-    email_pass = config.get('mail', 'password')
-    email_to = config.get('mail', 'email_to')
-    msg = MIMEMultipart()
-    msg['From'] = email_login
-    msg['To'] = email_to
-    msg['Subject'] = "Warning Mining"
-    body = p1
-    msg.attach(MIMEText(body, 'plain'))
-    server = smtplib.SMTP_SSL('smtp.mail.ru', 465)
-    server.login(email_login, email_pass)
-    text = msg.as_string()
-    server.sendmail(email_login, email_to, text)
-    server.quit()
-
-
 def send_discord(p1):
     HOOK = 'https://discordapp.com/api/webhooks/642252309182808074/Rnx0v-0hKSuX-GYmNrpegEVjUsXm0I6K703L2G85lsp2kM-TmYqN3-zYcR4IuFAv_blh'
     MESSAGE = {
@@ -214,16 +198,13 @@ def send_discord(p1):
     requests.post(HOOK, json=MESSAGE).text
 
 
-def web():
-    server = BaseHTTPServer.HTTPServer
-    handler = CGIHTTPServer.CGIHTTPRequestHandler
-    server_address = ("", 8008)
-    handler.cgi_directories = ["/cgi"]
-
-    httpd = server(server_address, handler)
-    httpd.serve_forever()
+app = Flask(__name__)
+@app.route("/")
+def hello():
+    return result_html
 
 
 if __name__ == '__main__':
     run()
-    web()
+    # web()
+    app.run(host='0.0.0.0', port=8008)
