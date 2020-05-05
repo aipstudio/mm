@@ -85,9 +85,9 @@ def run():
     html += xml_table+'</table>'
     html += '</body></html>'
 
-    f = open('index.html', 'w')
-    f.write(html)
-    f.close()
+    #f = open('index.html', 'w')
+    #f.write(html)
+    #f.close()
 
     result_html = html
 
