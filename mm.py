@@ -144,7 +144,7 @@ def get_json_claymore(xx, r):
 
 
 def get_ps_xml_file():
-    threading.Timer(600, run).start()
+    threading.Timer(600, get_ps_xml_file).start()
     r = os.system(
         "powershell -NoProfile -ExecutionPolicy ByPass -file mm_gg.ps1")
     if r != 0:
