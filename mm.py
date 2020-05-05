@@ -23,7 +23,7 @@ f.close()
 
 
 def run():
-    threading.Timer(600, run).start()
+    #threading.Timer(600, run).start()
     m.clear()
     global power, hashrate, temp_max, temp_min, result_html
     power = hashrate = temp_max = 0
@@ -52,23 +52,19 @@ def run():
             send_discord('no connect '+x)
             print("exception claymore")
 
-    r = os.system(
-        "powershell -NoProfile -ExecutionPolicy ByPass -file mm_gg.ps1")
-    if r != 0:
-        send_discord('Fucking powershell ERROR')
-
-    #q='Power='+str(power) + ' Sped='+str(hashrate) + ' Tmax='+str(temp_max) + ' Tmin='+str(temp_min) + '\n'
+    # q='Power='+str(power) + ' Sped='+str(hashrate) + ' Tmax='+str(temp_max) + ' Tmin='+str(temp_min) + '\n'
     q = 'Sped='+str(hashrate)+' Tmax='+str(temp_max) + \
         ' Tmin='+str(temp_min)+'\n'
-    print(datetime.today())
-    print(q)
+    #print(datetime.today())
+    #print(q)
 
     # сборка web страницы index.html
     html = '<html><body style="background-color:#111111;color:#ffffff;font-weight:bold;">'
+    html += '<style type="text/css">tr:nth-child(odd) { background-color: #252525; } tr:nth-child(even) { background-color: #111111; }</style>'
     html += '<p>'+str(datetime.today())+'</p><p>'+q+'</p>'
 
     # сборка таблицы от ewbf
-    #html+='<table border=1 style="font-weight: bold;float:left;">'
+    # html+='<table border=1 style="font-weight: bold;float:left;">'
     # html+='<tr><td>IPaddr</td><td>Temp</td><td>Power</td><td>Hash</td><td>Ac</td><td>Rj</td></tr>'
     # html+=get_array_json()+'</table>'
 
@@ -85,13 +81,13 @@ def run():
     html += xml_table+'</table>'
     html += '</body></html>'
 
-    #f = open('index.html', 'w')
-    #f.write(html)
-    #f.close()
+    # f = open('index.html', 'w')
+    # f.write(html)
+    # f.close()
 
     result_html = html
 
-    if hashrate < 375000 or temp_max > 75 or temp_min < 40:  # for claymore ETH
+    if hashrate < 370000 or temp_max > 75 or temp_min < 40:  # for claymore ETH
         send_discord(q)
 
 
@@ -121,7 +117,7 @@ def get_array_json():  # ewbf перебор массива с данными в
             rr += '<td>'+str(elem)+'</td>'
         r += '\n'
         rr += '</tr>'
-    print(r)
+    #print(r)
     return rr
 
 
@@ -143,9 +139,16 @@ def get_json_claymore(xx, r):
             temp_max = int(temp)
         elif int(temp) < temp_min:
             temp_min = int(temp)
-        print(hashr+' '+temp+' '+cooler)
+        #print(hashr+' '+temp+' '+cooler)
     return rr
 
+
+def get_ps_xml_file():
+    threading.Timer(600, run).start()
+    r = os.system(
+        "powershell -NoProfile -ExecutionPolicy ByPass -file mm_gg.ps1")
+    if r != 0:
+        send_discord('Fucking powershell ERROR')
 
 def get_ps_xml(p1):  # перебор элементов в xml файлах(файлы получены через powershell 5.1 через сесиию) и подготовка к выводу
     tree = ET.parse(p1)
@@ -173,7 +176,7 @@ def get_ps_xml(p1):  # перебор элементов в xml файлах(ф�
             fan_speed+'</td><td>'+gpu_util+'</td><td>'
         rr += memory_util+'</td><td>'+gpu_temp+'</td><td>'+power_draw+'</td><td>'
         rr += graphics_clock+'</td><td>'+mem_clock+'</td><td>'+video_clock+'</td></tr>'
-    print(r)
+    #print(r)
     return rr
 
 
@@ -201,10 +204,10 @@ def send_discord(p1):
 app = Flask(__name__)
 @app.route("/")
 def hello():
+    run()
     return result_html
 
 
 if __name__ == '__main__':
-    run()
-    # web()
+    get_ps_xml_file()
     app.run(host='0.0.0.0', port=8008)
