@@ -4,7 +4,6 @@ from flask import Flask
 import requests
 import configparser
 import os
-import smtplib
 import json
 import socket
 import xml.etree.ElementTree as ET
@@ -21,6 +20,9 @@ for line in f:
     ferma.append(line.rstrip())
 f.close()
 
+def run_loop():
+    threading.Timer(600, run).start()
+    run()
 
 def run():
     #threading.Timer(600, run).start()
@@ -210,4 +212,5 @@ def hello():
 
 if __name__ == '__main__':
     get_ps_xml_file()
+    run_loop()
     app.run(host='0.0.0.0', port=8008)
