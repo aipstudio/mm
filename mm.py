@@ -11,7 +11,7 @@ import threading
 from datetime import datetime
 m = []  # массив для ewbf
 ferma = []  # массив ип-адресов ригов
-power = hashrate = temp_max = 0
+fullpower = power = hashrate = temp_max = 0
 result_html = ''
 temp_min = 100
 
@@ -27,8 +27,8 @@ def run_loop():
 def run():
     #threading.Timer(600, run).start()
     m.clear()
-    global power, hashrate, temp_max, temp_min, result_html
-    power = hashrate = temp_max = 0
+    global fullpower, power, hashrate, temp_max, temp_min, result_html
+    fullpower = power = hashrate = temp_max = 0
     temp_min = 100
     claymore_table = xml_table = ''
 
@@ -45,7 +45,7 @@ def run():
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((x, 3333))
             s.send(
-                '{"id":0,"jsonrpc":"2.0","method":"miner_getstat1"}'.encode("utf-8"))
+                '{"id":0,"jsonrpc":"2.0","method":"miner_getstat2"}'.encode("utf-8"))
             j = s.recv(2048)
             s.close()
             r = json.loads(j.decode("utf-8"))
@@ -55,8 +55,8 @@ def run():
             print("exception claymore")
 
     # q='Power='+str(power) + ' Sped='+str(hashrate) + ' Tmax='+str(temp_max) + ' Tmin='+str(temp_min) + '\n'
-    q = 'Sped='+str(hashrate)+' Tmax='+str(temp_max) + \
-        ' Tmin='+str(temp_min)+'\n'
+    q = 'Sped='+str(hashrate)+' Power='+str(fullpower) + \
+        ' Tmax='+str(temp_max) + ' Tmin='+str(temp_min)+'\n'
     #print(datetime.today())
     #print(q)
 
@@ -76,12 +76,12 @@ def run():
     html += claymore_table+'</table>'
 
     # сборка таблицы от xml file nvidi-smi
-    html += '<table border=1 style="font-weight: bold;float:left"><tr><td>Name</td><td>Cooler</td><td>CPU</td><td>MEM</td><td>Temp</td><td>Watt</td><td>GPU Clock</td><td>MEM Clock</td><td>VIDEO Clock</td></tr>'
-    for x in ferma:  # собираем данные из файлов *.xml
-        if os.path.isfile(x+'.xml'):
-            xml_table += get_ps_xml(x+'.xml')
-    html += xml_table+'</table>'
-    html += '</body></html>'
+    # html += '<table border=1 style="font-weight: bold;float:left"><tr><td>Name</td><td>Cooler</td><td>CPU</td><td>MEM</td><td>Temp</td><td>Watt</td><td>GPU Clock</td><td>MEM Clock</td><td>VIDEO Clock</td></tr>'
+    # for x in ferma:  # собираем данные из файлов *.xml
+    #     if os.path.isfile(x+'.xml'):
+    #         xml_table += get_ps_xml(x+'.xml')
+    # html += xml_table+'</table>'
+    # html += '</body></html>'
 
     # f = open('index.html', 'w')
     # f.write(html)
@@ -91,7 +91,6 @@ def run():
 
     if hashrate < 370000 or temp_max > 75 or temp_min < 40:  # for claymore ETH
         send_discord(q)
-
 
 def add_array(j, r, n):  # ewbf наполнение массива элементами взятыми из api json майнеров
     global power, hashrate, temp_max, temp_min
@@ -125,10 +124,11 @@ def get_array_json():  # ewbf перебор массива с данными в
 
 # claymore перебор данных json взятыми из api майнеров и подготовка к выводу
 def get_json_claymore(xx, r):
-    global hashrate, temp_max, temp_min, hashr, temp, cooler
+    global hashrate, fullpower, temp_max, temp_min, hashr, temp, cooler
     rr = ''
     m3 = r['result'][3].split(';')
     m6 = r['result'][6].split(';')
+    fullpower += int(r['result'][17])
     for x in range(len(m3)):
         hashr = m3[::][x]
         temp = m6[::2][x]
@@ -183,7 +183,7 @@ def get_ps_xml(p1):  # перебор элементов в xml файлах(ф�
 
 
 def send_discord(p1):
-    HOOK = 'https://discordapp.com/api/webhooks/'
+    HOOK = 'https://discord.com/api/webhooks/713946771360841840/j_nyVu1KBYZdP5RiYaTfXuAy66mIh9UDeW4gajpaTCmPkNjLLle5JHSuBRonW7kk7lmR'
     MESSAGE = {
         'embeds': [
             {
@@ -211,6 +211,6 @@ def hello():
 
 
 if __name__ == '__main__':
-    get_ps_xml_file()
+    #get_ps_xml_file()
     run_loop()
     app.run(host='0.0.0.0', port=8008)
