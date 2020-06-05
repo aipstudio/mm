@@ -54,11 +54,8 @@ def run():
             send_discord('no connect '+x)
             print("exception claymore")
 
-    # q='Power='+str(power) + ' Sped='+str(hashrate) + ' Tmax='+str(temp_max) + ' Tmin='+str(temp_min) + '\n'
     q = 'Sped='+str(hashrate)+' Power='+str(fullpower) + \
         ' Tmax='+str(temp_max) + ' Tmin='+str(temp_min)+'\n'
-    #print(datetime.today())
-    #print(q)
 
     # сборка web страницы index.html
     html = '<html><body style="background-color:#111111;color:#ffffff;font-weight:bold;">'
@@ -124,7 +121,8 @@ def get_array_json():  # ewbf перебор массива с данными в
 
 # claymore перебор данных json взятыми из api майнеров и подготовка к выводу
 def get_json_claymore(xx, r):
-    global hashrate, fullpower, temp_max, temp_min, hashr, temp, cooler
+    global hashrate, fullpower, temp_max, temp_min
+    hashr = temp = cooler =0
     rr = ''
     m3 = r['result'][3].split(';')
     m6 = r['result'][6].split(';')
