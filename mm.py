@@ -178,7 +178,7 @@ def get_ps_xml(p1):  # перебор элементов в xml файлах(ф�
 
 
 def send_discord(p1):
-    HOOK = 'https://discord.com/api/webhooks/713946771360841840/j_nyVu1KBYZdP5RiYaTfXuAy66mIh9UDeW4gajpaTCmPkNjLLle5JHSuBRonW7kk7lmR'
+    HOOK = 'https://discord.com/api/webhooks/'
     MESSAGE = {
         'embeds': [
             {
