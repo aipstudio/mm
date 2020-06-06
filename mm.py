@@ -20,12 +20,9 @@ for line in f:
     ferma.append(line.rstrip())
 f.close()
 
-def run_loop():
-    threading.Timer(600, run).start()
-    run()
 
 def run():
-    #threading.Timer(600, run).start()
+    threading.Timer(10, run).start()
     m.clear()
     global fullpower, power, hashrate, temp_max, temp_min, result_html
     fullpower = power = hashrate = temp_max = 0
@@ -86,7 +83,7 @@ def run():
 
     result_html = html
 
-    if hashrate < 370000 or temp_max > 75 or temp_min < 40:  # for claymore ETH
+    if hashrate < 380000 or temp_max > 75 or temp_min < 40:  # for claymore ETH
         send_discord(q)
 
 def add_array(j, r, n):  # ewbf наполнение массива элементами взятыми из api json майнеров
@@ -209,6 +206,5 @@ def hello():
 
 
 if __name__ == '__main__':
-    #get_ps_xml_file()
-    run_loop()
+    run()
     app.run(host='0.0.0.0', port=8008)
