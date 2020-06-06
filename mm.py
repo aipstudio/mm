@@ -22,7 +22,7 @@ f.close()
 
 
 def run():
-    threading.Timer(10, run).start()
+    threading.Timer(600, run).start()
     m.clear()
     global fullpower, power, hashrate, temp_max, temp_min, result_html
     fullpower = power = hashrate = temp_max = 0
@@ -83,7 +83,7 @@ def run():
 
     result_html = html
 
-    if hashrate < 380000 or temp_max > 75 or temp_min < 40:  # for claymore ETH
+    if hashrate < 370000 or temp_max > 75 or temp_min < 40:  # for claymore ETH
         send_discord(q)
 
 def add_array(j, r, n):  # ewbf наполнение массива элементами взятыми из api json майнеров
