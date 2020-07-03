@@ -182,7 +182,7 @@ def send_discord(p1):
     MESSAGE = {
         'embeds': [
             {
-                'color': 11500000,
+                'color': 10181046,
                 'title': 'Warning Mining',
                 'fields': [
                     {
