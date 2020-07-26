@@ -14,6 +14,9 @@ ferma = []  # массив ип-адресов ригов
 fullpower = power = hashrate = temp_max = 0
 result_html = ''
 temp_min = 100
+hashrate_alert = 350000
+t_max_alert = 75
+t_min_alert = 40
 
 f = open('ip.txt')
 for line in f:
@@ -40,6 +43,7 @@ def run():
     for x in ferma:  # claymore опрашиваем api удаленных майнеров через сокет
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.settimeout(1)
             s.connect((x, 3333))
             s.send(
                 '{"id":0,"jsonrpc":"2.0","method":"miner_getstat2"}'.encode("utf-8"))
@@ -83,8 +87,9 @@ def run():
 
     result_html = html
 
-    if hashrate < 370000 or temp_max > 75 or temp_min < 40:  # for claymore ETH
+    if hashrate < hashrate_alert or temp_max > t_max_alert or temp_min < t_min_alert:  # for claymore ETH
         send_discord(q)
+
 
 def add_array(j, r, n):  # ewbf наполнение массива элементами взятыми из api json майнеров
     global power, hashrate, temp_max, temp_min
@@ -112,14 +117,14 @@ def get_array_json():  # ewbf перебор массива с данными в
             rr += '<td>'+str(elem)+'</td>'
         r += '\n'
         rr += '</tr>'
-    #print(r)
+    # print(r)
     return rr
 
 
 # claymore перебор данных json взятыми из api майнеров и подготовка к выводу
 def get_json_claymore(xx, r):
     global hashrate, fullpower, temp_max, temp_min
-    hashr = temp = cooler =0
+    hashr = temp = cooler = 0
     rr = ''
     m3 = r['result'][3].split(';')
     m6 = r['result'][6].split(';')
@@ -147,6 +152,7 @@ def get_ps_xml_file():
     if r != 0:
         send_discord('Fucking powershell ERROR')
 
+
 def get_ps_xml(p1):  # перебор элементов в xml файлах(файлы получены через powershell 5.1 через сесиию) и подготовка к выводу
     tree = ET.parse(p1)
     root = tree.getroot()
@@ -173,24 +179,17 @@ def get_ps_xml(p1):  # перебор элементов в xml файлах(ф�
             fan_speed+'</td><td>'+gpu_util+'</td><td>'
         rr += memory_util+'</td><td>'+gpu_temp+'</td><td>'+power_draw+'</td><td>'
         rr += graphics_clock+'</td><td>'+mem_clock+'</td><td>'+video_clock+'</td></tr>'
-    #print(r)
+    # print(r)
     return rr
 
 
 def send_discord(p1):
-    HOOK = 'https://discord.com/api/webhooks/'
+    HOOK = 'https://discord.com/api/webhooks'
     MESSAGE = {
         'embeds': [
             {
                 'color': 10181046,
-                'title': 'Warning Mining',
-                'fields': [
-                    {
-                        'name': 'Miner monitor',
-                        'value': p1,
-                        'inline': True
-                    }
-                ]
+                'title': p1
             }
         ]
     }
@@ -199,6 +198,8 @@ def send_discord(p1):
 
 
 app = Flask(__name__)
+
+
 @app.route("/")
 def hello():
     run()
