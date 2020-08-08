@@ -14,15 +14,23 @@ ferma = []  # массив ип-адресов ригов
 fullpower = power = hashrate = temp_max = 0
 result_html = ''
 temp_min = 100
-hashrate_alert = 350000
-t_max_alert = 75
+hashrate_alert = 370000
+t_max_alert = 77
 t_min_alert = 40
+d_coin = d_unpaid = d_usd = 0
 
 f = open('ip.txt')
 for line in f:
     ferma.append(line.rstrip())
 f.close()
 
+def run_eth():
+    global d_unpaid, d_coin, d_usd
+    threading.Timer(600, run_eth).start()
+    r = requests.get('https://api.ethermine.org/miner/792d6869d054bf4452406dc6900ca5d10d5a8af5/currentStats')
+    d_unpaid = r.json()['data']['unpaid']/1000000000000000000
+    d_coin = r.json()['data']['coinsPerMin']*60*24
+    d_usd = r.json()['data']['usdPerMin']*60*24
 
 def run():
     threading.Timer(600, run).start()
@@ -43,7 +51,7 @@ def run():
     for x in ferma:  # claymore опрашиваем api удаленных майнеров через сокет
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.settimeout(1)
+            s.settimeout(2)
             s.connect((x, 3333))
             s.send(
                 '{"id":0,"jsonrpc":"2.0","method":"miner_getstat2"}'.encode("utf-8"))
@@ -57,11 +65,11 @@ def run():
 
     q = 'Sped='+str(hashrate)+' Power='+str(fullpower) + \
         ' Tmax='+str(temp_max) + ' Tmin='+str(temp_min)+'\n'
-
+    qq = 'unpaid='+str(d_unpaid)[:5]+' coin='+str(d_coin)[:5]+' usd='+str(d_usd)[:5]+'\n'
     # сборка web страницы index.html
     html = '<html><body style="background-color:#111111;color:#ffffff;font-weight:bold;">'
     html += '<style type="text/css">tr:nth-child(odd) { background-color: #252525; } tr:nth-child(even) { background-color: #111111; }</style>'
-    html += '<p>'+str(datetime.today())+'</p><p>'+q+'</p>'
+    html += '<p>'+str(datetime.today())+'</p><p>'+q+'</p><p>'+qq+'</p>'
 
     # сборка таблицы от ewbf
     # html+='<table border=1 style="font-weight: bold;float:left;">'
@@ -184,7 +192,7 @@ def get_ps_xml(p1):  # перебор элементов в xml файлах(ф�
 
 
 def send_discord(p1):
-    HOOK = 'https://discord.com/api/webhooks'
+    HOOK = 'https://discord.com/api/webhooks/713946771360841840/j_nyVu1KBYZdP5RiYaTfXuAy66mIh9UDeW4gajpaTCmPkNjLLle5JHSuBRonW7kk7lmR'
     MESSAGE = {
         'embeds': [
             {
@@ -207,5 +215,6 @@ def hello():
 
 
 if __name__ == '__main__':
+    run_eth()
     run()
     app.run(host='0.0.0.0', port=8008)
