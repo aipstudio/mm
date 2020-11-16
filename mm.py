@@ -14,32 +14,38 @@ ferma = []  # массив ип-адресов ригов
 fullpower = power = hashrate = temp_max = 0
 result_html = ''
 temp_min = 100
-hashrate_alert = 370000
-t_max_alert = 77
-t_min_alert = 40
+hashrate_alert = 535000
+t_max_alert = 80
+t_min_alert = 35
 d_coin = d_unpaid = d_usd = 0
+count = 0
 
 f = open('ip.txt')
 for line in f:
     ferma.append(line.rstrip())
 f.close()
 
+def run_eth_timer():
+    threading.Timer(600, run_eth_timer).start()
+    run_eth()
+
 def run_eth():
     global d_unpaid, d_coin, d_usd
-    threading.Timer(600, run_eth).start()
     r = requests.get('https://api.ethermine.org/miner/792d6869d054bf4452406dc6900ca5d10d5a8af5/currentStats')
     d_unpaid = r.json()['data']['unpaid']/1000000000000000000
     d_coin = r.json()['data']['coinsPerMin']*60*24
     d_usd = r.json()['data']['usdPerMin']*60*24
 
+def run_timer():
+    threading.Timer(600, run_timer).start()
+    run()
+
 def run():
-    threading.Timer(600, run).start()
     m.clear()
-    global fullpower, power, hashrate, temp_max, temp_min, result_html
+    global fullpower, power, hashrate, temp_max, temp_min, result_html, count
     fullpower = power = hashrate = temp_max = 0
     temp_min = 100
     claymore_table = xml_table = ''
-
     # for x in ferma: #ewbf опрашиваем api удаленных майнеров через get
     #    try:
     #        r = requests.get('http://'+x+':42000/getstat', timeout=(1))
@@ -49,19 +55,29 @@ def run():
     #        print("exception ewbf")
 
     for x in ferma:  # claymore опрашиваем api удаленных майнеров через сокет
+        #s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s = socket.socket()
         try:
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.settimeout(2)
             s.connect((x, 3333))
             s.send(
                 '{"id":0,"jsonrpc":"2.0","method":"miner_getstat2"}'.encode("utf-8"))
-            j = s.recv(2048)
+            data = s.recv(2048)
+            if not data:
+                send_discord('no data '+x)
+                print("nodata "+x)
+                break
             s.close()
-            r = json.loads(j.decode("utf-8"))
+            r = json.loads(data.decode("utf-8"))
             claymore_table += get_json_claymore(x, r)
+        except TimeoutError:
+            send_discord('connection timeout '+x)
+            print("connection timeout "+x)
+        except ConnectionRefusedError:
+            send_discord('connection refused '+x)
+            print("connection refused "+x)
         except:
-            send_discord('no connect '+x)
-            print("exception claymore")
+            send_discord('except '+x)
+            print("exception claymore "+x)
 
     q = 'Sped='+str(hashrate)+' Power='+str(fullpower) + \
         ' Tmax='+str(temp_max) + ' Tmin='+str(temp_min)+'\n'
@@ -97,7 +113,6 @@ def run():
 
     if hashrate < hashrate_alert or temp_max > t_max_alert or temp_min < t_min_alert:  # for claymore ETH
         send_discord(q)
-
 
 def add_array(j, r, n):  # ewbf наполнение массива элементами взятыми из api json майнеров
     global power, hashrate, temp_max, temp_min
@@ -137,6 +152,7 @@ def get_json_claymore(xx, r):
     m3 = r['result'][3].split(';')
     m6 = r['result'][6].split(';')
     fullpower += int(r['result'][17])
+    print(xx+' '+str(datetime.today()))
     for x in range(len(m3)):
         hashr = m3[::][x]
         temp = m6[::2][x]
@@ -149,12 +165,11 @@ def get_json_claymore(xx, r):
             temp_max = int(temp)
         elif int(temp) < temp_min:
             temp_min = int(temp)
-        #print(hashr+' '+temp+' '+cooler)
+        print(str(x)+' '+hashr+' '+temp+' '+cooler)
     return rr
 
 
 def get_ps_xml_file():
-    threading.Timer(600, get_ps_xml_file).start()
     r = os.system(
         "powershell -NoProfile -ExecutionPolicy ByPass -file mm_gg.ps1")
     if r != 0:
@@ -192,6 +207,8 @@ def get_ps_xml(p1):  # перебор элементов в xml файлах(ф�
 
 
 def send_discord(p1):
+    global count
+    count = 0
     HOOK = 'https://discord.com/api/webhooks/713946771360841840/j_nyVu1KBYZdP5RiYaTfXuAy66mIh9UDeW4gajpaTCmPkNjLLle5JHSuBRonW7kk7lmR'
     MESSAGE = {
         'embeds': [
@@ -215,6 +232,7 @@ def hello():
 
 
 if __name__ == '__main__':
-    run_eth()
-    run()
+    run_eth_timer()
+    run_timer()
     app.run(host='0.0.0.0', port=8008)
+    
