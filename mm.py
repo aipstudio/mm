@@ -14,12 +14,14 @@ ferma = []  # массив ип-адресов ригов
 power_full = hashrate_full = fullpower = power = hashrate = temp_max = 0
 result_html = ''
 temp_min = 100
-hashrate_alert = 710000000
+hashrate_alert = 710
 t_max_alert = 75
 t_min_alert = 30
 d_coin = d_unpaid = d_usd = 0
 count = 0
-rig = {}
+rig_hashrate = {} 
+rig_power = {}
+rig_efficiency = {}
 
 f = open('ip.txt')
 for line in f:
@@ -45,20 +47,21 @@ def run_timer():
 def run():
     m.clear()
     global result_html, hashrate_full, power_full, temp_max, temp_min
-    trex_table = hashrate_rig_br = hashrate_rig = ''
+    trex_table = rig_br_str = rig_str = ''
     power_full = hashrate_full = temp_max = 0
     temp_min = 100
     except_connect = ''
     for ip in ferma:
-        rig[ip] = 0
+        rig_hashrate[ip] = rig_efficiency[ip] = rig_power[ip] = 0
         try:
             r = requests.get('http://'+ip+':4067/summary', timeout=1)
             trex_table += get_json_trex(ip,r.json()) 
         except:
             except_connect += 'except: ' + ip
             print("except: " + ip)
-        hashrate_rig += ip + '=' + str('%.1f'%(rig[ip]/1000000)) + '\n'
-        hashrate_rig_br += '<tr><td>' + ip + '</td><td>' + str('%.1f'%(rig[ip]/1000000)) + '</td></tr>'
+        rig_str += ip + '=' + str('%.1f'%(rig_hashrate[ip]/1000000)) + '\n'
+        rig_br_str += '<tr><td>' + ip + '</td><td>' + str('%.1f'%(rig_hashrate[ip]/1000000)) + '</td><td>' + \
+        str(rig_efficiency[ip]) + '</td><td>' + str(rig_power[ip]/1000) + '</td></tr>'
 
     q = 'Sped='+str('%.1f'%(hashrate_full/1000000))+' Power='+str(power_full/1000) + \
         ' Tmax='+str(temp_max) + ' Tmin='+str(temp_min)#+'\n'
@@ -67,19 +70,19 @@ def run():
     html = '<html><body style="background-color:#111111;color:#ffffff;font-weight:bold;">'
     html += '<style type="text/css">tr:nth-child(odd) { background-color: #252525; } tr:nth-child(even) { background-color: #111111; }</style>'
     html += '<p>'+str(datetime.today())+'</p><p>'+q+'</p><p>'+qq+'</p>'
-    html += '<p><table border=1><tr><td>IP</td><td>hashrate</td></tr>'+hashrate_rig_br+'</table></p>'
+    html += '<p><table border=1><tr><td width=100px>IP</td><td>hashrate</td><td>kH/W</td><td>power</td></tr>'+rig_br_str+'</table></p>'
     html += '<p><table border=1 style="font-weight: left;"></p>'
-    html += '<tr><td>IP</td><td>Name</td><td>hashrate</td><td>kH/W</td><td>power</td><td>temp</td><td>fan</td></tr>'
+    html += '<tr><td width=100px>IP</td><td width=100px>Name</td><td>hashrate</td><td>kH/W</td><td>power</td><td>temp</td><td>fan</td></tr>'
     html += trex_table+'</table>'
 
     result_html = html
 
     if hashrate_full < hashrate_alert or temp_max > t_max_alert or temp_min < t_min_alert: 
-        send_telegram(q+'\n'+hashrate_rig+'\n'+except_connect)
+        send_telegram(q+'\n'+rig_str+'\n'+except_connect+'\n')
 
 
 def get_json_trex(ip,j):
-    global hashrate_full, power_full, temp_max, temp_min, rig
+    global hashrate_full, power_full, temp_max, temp_min #, rig_hashrate, rig_efficiency, rig_power
     html = ''
     for i in j['gpus']:
         name = i['name']
@@ -97,7 +100,9 @@ def get_json_trex(ip,j):
             temp_min = temperature
         power_full += power
         hashrate_full += hashrate
-        rig[ip] += hashrate
+        rig_hashrate[ip] += hashrate
+        rig_efficiency[ip] += int(efficiency.replace('kH/W',''))
+        rig_power[ip] += power
     return html
 
 
@@ -107,7 +112,7 @@ def run_claymore():
     fullpower = power = hashrate = temp_max = 0
     temp_min = 100
     claymore_table = xml_table = ''
-    hashrate_rig = hashrate_rig_br = ''
+    rig_str = rig_br_str = ''
     # for x in ferma: #ewbf опрашиваем api удаленных майнеров через get
     #    try:
     #        r = requests.get('http://'+x+':42000/getstat', timeout=(1))
@@ -119,7 +124,7 @@ def run_claymore():
     for x in ferma:  # claymore опрашиваем api удаленных майнеров через сокет
         #s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s = socket.socket()
-        rig[x] = 0
+        rig_hashrate[x] = 0
         try:
             s.connect((x, 3333))
             s.send(
@@ -132,8 +137,8 @@ def run_claymore():
             s.close()
             r = json.loads(data.decode("utf-8"))
             claymore_table += get_json_claymore(x, r)
-            hashrate_rig += x + '=' + str(rig[x]) + '\n'
-            hashrate_rig_br += '<tr><td>' + x + '</td><td>' + str(rig[x]) + '</td></tr>'
+            rig_hashrate_str += x + '=' + str(rig_hashrate[x]) + '\n'
+            rig_hashrate_br_str += '<tr><td>' + x + '</td><td>' + str(rig_hashrate[x]) + '</td></tr>'
         except TimeoutError:
             send_telegram('connection timeout '+x)
             print("connection timeout "+x)
@@ -151,7 +156,7 @@ def run_claymore():
     html = '<html><body style="background-color:#111111;color:#ffffff;font-weight:bold;">'
     html += '<style type="text/css">tr:nth-child(odd) { background-color: #252525; } tr:nth-child(even) { background-color: #111111; }</style>'
     html += '<p>'+str(datetime.today())+'</p><p>'+q+'</p><p>'+qq+'</p>'
-    html += '<p><table border=1>'+hashrate_rig_br+'</table></p>'
+    html += '<p><table border=1>'+rig_br_str+'</table></p>'
 
     # сборка таблицы от ewbf
     # html+='<table border=1 style="font-weight: bold;float:left;">'
@@ -179,7 +184,7 @@ def run_claymore():
     result_html = html
 
     if hashrate < hashrate_alert or temp_max > t_max_alert or temp_min < t_min_alert:  # for claymore ETH
-        send_telegram(q+'\n'+hashrate_rig)
+        send_telegram(q+'\n'+rig_str)
 
 def add_array(j, r, n):  # ewbf наполнение массива элементами взятыми из api json майнеров
     global power, hashrate, temp_max, temp_min
@@ -228,7 +233,7 @@ def get_json_claymore(xx, r):
         rr += '<td>'+xx+'</td><td>'+hashr+'</td><td>'+temp+'</td><td>'+cooler+'</td>'
         rr += '</tr>'
         hashrate += int(hashr)
-        rig[xx] +=int(hashr)
+        rig_hashrate[xx] +=int(hashr)
         if int(temp) > temp_max:
             temp_max = int(temp)
         elif int(temp) < temp_min:
