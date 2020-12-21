@@ -11,35 +11,103 @@ import threading
 from datetime import datetime
 m = []  # массив для ewbf
 ferma = []  # массив ип-адресов ригов
-fullpower = power = hashrate = temp_max = 0
+power_full = hashrate_full = fullpower = power = hashrate = temp_max = 0
 result_html = ''
 temp_min = 100
-hashrate_alert = 370000
-t_max_alert = 77
-t_min_alert = 40
+hashrate_alert = 710000000
+t_max_alert = 75
+t_min_alert = 30
 d_coin = d_unpaid = d_usd = 0
+count = 0
+rig = {}
 
 f = open('ip.txt')
 for line in f:
     ferma.append(line.rstrip())
 f.close()
 
+def run_eth_timer():
+    threading.Timer(600, run_eth_timer).start()
+    run_eth()
+
 def run_eth():
     global d_unpaid, d_coin, d_usd
-    threading.Timer(600, run_eth).start()
     r = requests.get('https://api.ethermine.org/miner/792d6869d054bf4452406dc6900ca5d10d5a8af5/currentStats')
     d_unpaid = r.json()['data']['unpaid']/1000000000000000000
     d_coin = r.json()['data']['coinsPerMin']*60*24
     d_usd = r.json()['data']['usdPerMin']*60*24
 
+def run_timer():
+    threading.Timer(600, run_timer).start()
+    run()
+
+
 def run():
-    threading.Timer(600, run).start()
     m.clear()
-    global fullpower, power, hashrate, temp_max, temp_min, result_html
+    global result_html, hashrate_full, power_full, temp_max, temp_min
+    trex_table = hashrate_rig_br = hashrate_rig = ''
+    power_full = hashrate_full = temp_max = 0
+    temp_min = 100
+    except_connect = ''
+    for ip in ferma:
+        rig[ip] = 0
+        try:
+            r = requests.get('http://'+ip+':4067/summary', timeout=1)
+            trex_table += get_json_trex(ip,r.json()) 
+        except:
+            except_connect += 'except: ' + ip
+            print("except: " + ip)
+        hashrate_rig += ip + '=' + str('%.1f'%(rig[ip]/1000000)) + '\n'
+        hashrate_rig_br += '<tr><td>' + ip + '</td><td>' + str('%.1f'%(rig[ip]/1000000)) + '</td></tr>'
+
+    q = 'Sped='+str('%.1f'%(hashrate_full/1000000))+' Power='+str(power_full/1000) + \
+        ' Tmax='+str(temp_max) + ' Tmin='+str(temp_min)#+'\n'
+    qq = 'unpaid='+str(d_unpaid)[:5]+' coin='+str(d_coin)[:5]+' usd='+str(d_usd)[:5]+'\n'
+    # сборка web страницы index.html
+    html = '<html><body style="background-color:#111111;color:#ffffff;font-weight:bold;">'
+    html += '<style type="text/css">tr:nth-child(odd) { background-color: #252525; } tr:nth-child(even) { background-color: #111111; }</style>'
+    html += '<p>'+str(datetime.today())+'</p><p>'+q+'</p><p>'+qq+'</p>'
+    html += '<p><table border=1><tr><td>IP</td><td>hashrate</td></tr>'+hashrate_rig_br+'</table></p>'
+    html += '<p><table border=1 style="font-weight: left;"></p>'
+    html += '<tr><td>IP</td><td>Name</td><td>hashrate</td><td>kH/W</td><td>power</td><td>temp</td><td>fan</td></tr>'
+    html += trex_table+'</table>'
+
+    result_html = html
+
+    if hashrate_full < hashrate_alert or temp_max > t_max_alert or temp_min < t_min_alert: 
+        send_telegram(q+'\n'+hashrate_rig+'\n'+except_connect)
+
+
+def get_json_trex(ip,j):
+    global hashrate_full, power_full, temp_max, temp_min, rig
+    html = ''
+    for i in j['gpus']:
+        name = i['name']
+        hashrate = i['hashrate']
+        efficiency = i['efficiency']
+        power = i['power']
+        temperature = i['temperature']
+        fan_speed = i['fan_speed']
+        html += '<tr><td>' + ip + '</td><td>' + name + '</td><td>' + str('%.1f'%(hashrate/1000000)) + \
+        '</td><td>' + str(efficiency.replace('kH/W','')) +  '</td><td>' + str(power) + \
+        '</td><td>' + str(temperature) + '</td><td>' + str(fan_speed) + '</td></tr>'
+        if temperature > temp_max:
+            temp_max = temperature
+        elif temperature < temp_min:
+            temp_min = temperature
+        power_full += power
+        hashrate_full += hashrate
+        rig[ip] += hashrate
+    return html
+
+
+def run_claymore():
+    m.clear()
+    global fullpower, power, hashrate, temp_max, temp_min, result_html, count
     fullpower = power = hashrate = temp_max = 0
     temp_min = 100
     claymore_table = xml_table = ''
-
+    hashrate_rig = hashrate_rig_br = ''
     # for x in ferma: #ewbf опрашиваем api удаленных майнеров через get
     #    try:
     #        r = requests.get('http://'+x+':42000/getstat', timeout=(1))
@@ -49,27 +117,41 @@ def run():
     #        print("exception ewbf")
 
     for x in ferma:  # claymore опрашиваем api удаленных майнеров через сокет
+        #s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s = socket.socket()
+        rig[x] = 0
         try:
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.settimeout(2)
             s.connect((x, 3333))
             s.send(
                 '{"id":0,"jsonrpc":"2.0","method":"miner_getstat2"}'.encode("utf-8"))
-            j = s.recv(2048)
+            data = s.recv(2048)
+            if not data:
+                send_telegram('no data '+x)
+                print("nodata "+x)
+                break
             s.close()
-            r = json.loads(j.decode("utf-8"))
+            r = json.loads(data.decode("utf-8"))
             claymore_table += get_json_claymore(x, r)
+            hashrate_rig += x + '=' + str(rig[x]) + '\n'
+            hashrate_rig_br += '<tr><td>' + x + '</td><td>' + str(rig[x]) + '</td></tr>'
+        except TimeoutError:
+            send_telegram('connection timeout '+x)
+            print("connection timeout "+x)
+        except ConnectionRefusedError:
+            send_telegram('connection refused '+x)
+            print("connection refused "+x)
         except:
-            send_discord('no connect '+x)
-            print("exception claymore")
+            send_telegram('except '+x)
+            print("exception claymore "+x)
 
     q = 'Sped='+str(hashrate)+' Power='+str(fullpower) + \
-        ' Tmax='+str(temp_max) + ' Tmin='+str(temp_min)+'\n'
+        ' Tmax='+str(temp_max) + ' Tmin='+str(temp_min)#+'\n'
     qq = 'unpaid='+str(d_unpaid)[:5]+' coin='+str(d_coin)[:5]+' usd='+str(d_usd)[:5]+'\n'
     # сборка web страницы index.html
     html = '<html><body style="background-color:#111111;color:#ffffff;font-weight:bold;">'
     html += '<style type="text/css">tr:nth-child(odd) { background-color: #252525; } tr:nth-child(even) { background-color: #111111; }</style>'
     html += '<p>'+str(datetime.today())+'</p><p>'+q+'</p><p>'+qq+'</p>'
+    html += '<p><table border=1>'+hashrate_rig_br+'</table></p>'
 
     # сборка таблицы от ewbf
     # html+='<table border=1 style="font-weight: bold;float:left;">'
@@ -77,7 +159,8 @@ def run():
     # html+=get_array_json()+'</table>'
 
     # сборка таблицы от claymore
-    html += '<table border=1 style="font-weight: bold;float:left;">'
+    #html += '<table border=1 style="font-weight: bold;float:left;">'
+    html += '<table border=1 style="font-weight: left;">'
     html += '<tr><td>IPaddr</td><td>Hash</td><td>Temp</td><td>Cooler</td></tr>'
     html += claymore_table+'</table>'
 
@@ -96,7 +179,7 @@ def run():
     result_html = html
 
     if hashrate < hashrate_alert or temp_max > t_max_alert or temp_min < t_min_alert:  # for claymore ETH
-        send_discord(q)
+        send_telegram(q+'\n'+hashrate_rig)
 
 
 def add_array(j, r, n):  # ewbf наполнение массива элементами взятыми из api json майнеров
@@ -137,6 +220,7 @@ def get_json_claymore(xx, r):
     m3 = r['result'][3].split(';')
     m6 = r['result'][6].split(';')
     fullpower += int(r['result'][17])
+    #print(xx+' '+str(datetime.today()))
     for x in range(len(m3)):
         hashr = m3[::][x]
         temp = m6[::2][x]
@@ -145,20 +229,20 @@ def get_json_claymore(xx, r):
         rr += '<td>'+xx+'</td><td>'+hashr+'</td><td>'+temp+'</td><td>'+cooler+'</td>'
         rr += '</tr>'
         hashrate += int(hashr)
+        rig[xx] +=int(hashr)
         if int(temp) > temp_max:
             temp_max = int(temp)
         elif int(temp) < temp_min:
             temp_min = int(temp)
-        #print(hashr+' '+temp+' '+cooler)
+        #print(str(x)+' '+hashr+' '+temp+' '+cooler)
     return rr
 
 
 def get_ps_xml_file():
-    threading.Timer(600, get_ps_xml_file).start()
     r = os.system(
         "powershell -NoProfile -ExecutionPolicy ByPass -file mm_gg.ps1")
     if r != 0:
-        send_discord('Fucking powershell ERROR')
+        send_telegram('Fucking powershell ERROR')
 
 
 def get_ps_xml(p1):  # перебор элементов в xml файлах(файлы получены через powershell 5.1 через сесиию) и подготовка к выводу
@@ -192,6 +276,8 @@ def get_ps_xml(p1):  # перебор элементов в xml файлах(ф�
 
 
 def send_discord(p1):
+    global count
+    count = 0
     HOOK = 'https://discord.com/api/webhooks/713946771360841840/j_nyVu1KBYZdP5RiYaTfXuAy66mIh9UDeW4gajpaTCmPkNjLLle5JHSuBRonW7kk7lmR'
     MESSAGE = {
         'embeds': [
@@ -205,6 +291,14 @@ def send_discord(p1):
     requests.post(HOOK, json=MESSAGE).text
 
 
+def send_telegram(p1):
+    bot_token = '1449777708:AAHV6KJaAXq0qEw1X6X01aHGFAlBwrxSlAo' #aipstd_bot
+    bot_chatID = '345075073'
+    send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + p1 
+    response = requests.get(send_text)
+    return response.json()
+    
+
 app = Flask(__name__)
 
 
@@ -215,6 +309,7 @@ def hello():
 
 
 if __name__ == '__main__':
-    run_eth()
-    run()
+    run_eth_timer()
+    run_timer()
     app.run(host='0.0.0.0', port=8008)
+    
