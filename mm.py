@@ -181,7 +181,6 @@ def run_claymore():
     if hashrate < hashrate_alert or temp_max > t_max_alert or temp_min < t_min_alert:  # for claymore ETH
         send_telegram(q+'\n'+hashrate_rig)
 
-
 def add_array(j, r, n):  # ewbf наполнение массива элементами взятыми из api json майнеров
     global power, hashrate, temp_max, temp_min
     for i in range(n):
