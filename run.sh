@@ -2,7 +2,7 @@
 
 WD=/root/mm
 cd $WD
-git clone https://github.com/aipstudio/mm.git $WD
+#git clone https://github.com/aipstudio/mm.git $WD
 git pull
 
 docker build -t mm .
