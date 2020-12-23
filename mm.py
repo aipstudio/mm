@@ -13,7 +13,7 @@ ferma = []  # массив ип-адресов ригов
 power_full = hashrate_full = fullpower = power = hashrate = temp_max = 0
 result_html = ''
 temp_min = 100
-hashrate_alert = 710
+hashrate_alert = 725000000
 t_max_alert = 75
 t_min_alert = 30
 d_coin = d_unpaid = d_usd = 0
@@ -55,17 +55,19 @@ def run():
     temp_min = 100
     except_connect = ''
     for ip in ferma:
-        rig_hashrate[ip] = rig_efficiency[ip] = rig_power[ip] = rig_power[ip] = 0
+        rig_hashrate[ip] = rig_efficiency[ip] = rig_power[ip] = rig_power[ip] = 1
         try:
-            r = requests.get('http://' + ip + ':4067/summary', timeout=1)
-            trex_table += get_json_trex(ip, r.json())
+            r = requests.get('http://' + ip + ':4067/summary', timeout=2)
+            if r.status_code == 200:
+                trex_table += get_json_trex(ip, r.json())
         except:
             except_connect += 'except: ' + ip
             print("except: " + ip)
+            continue
         rig_str += ip + '=' + str('%.1f' % (rig_hashrate[ip] / 1000000)) + '\n'
         rig_br_str += '<tr><td>' + ip + '</td><td>' + str('%.1f' % (rig_hashrate[ip] / 1000000)) + '</td><td>' + \
             str(rig_efficiency[ip]) + '</td><td>' + str(rig_power[ip] / 1000) + '</td><td>' + \
-            str(timedelta(seconds=rig_uptime[ip])) + '</td></tr>'
+            rig_uptime[ip] + '</td></tr>'
 
     q = 'Sped=' + str('%.1f' % (hashrate_full / 1000000)) + ' Power=' + str(power_full / 1000) + \
         ' Tmax=' + str(temp_max) + ' Tmin=' + str(temp_min)  # +'\n'
@@ -86,7 +88,7 @@ def run():
 
 
 def get_json_trex(ip, j):
-    global hashrate_full, power_full, temp_max, temp_min  # , rig_hashrate, rig_efficiency, rig_power
+    global hashrate_full, power_full, temp_max, temp_min
     html = ''
     for i in j['gpus']:
         name = i['name']
@@ -107,7 +109,10 @@ def get_json_trex(ip, j):
         rig_hashrate[ip] += hashrate
         rig_efficiency[ip] += int(efficiency.replace('kH/W', ''))
         rig_power[ip] += power
-    rig_uptime[ip] = j['watchdog_stat']['uptime']
+    try:
+        rig_uptime[ip] = str(timedelta(seconds=j['watchdog_stat']['uptime']))
+    except:
+        rig_uptime[ip] = 1
     return html
 
 
