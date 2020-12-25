@@ -16,7 +16,7 @@ temp_min = 100
 hashrate_alert = 725000000
 t_max_alert = 75
 t_min_alert = 30
-d_coin = d_unpaid = d_usd = 0
+d_coin = d_unpaid = d_usd = d_validShares = d_staleShares = d_invalidShares = 0
 count = 0
 rig_hashrate = {}
 rig_power = {}
@@ -36,12 +36,18 @@ def run_eth_timer():
 
 
 def run_eth():
-    global d_unpaid, d_coin, d_usd
+    global d_unpaid, d_coin, d_usd, d_validShares, d_staleShares, d_invalidShares
     #r = requests.get('https://api.ethermine.org/miner/792d6869d054bf4452406dc6900ca5d10d5a8af5/currentStats')
-    r = requests.get('https://api.ethermine.org/miner/fd85081868b0c380ffff66b2dd1c299ee95c09c1/currentStats')
-    d_unpaid = r.json()['data']['unpaid'] / 1000000000000000000
-    d_coin = r.json()['data']['coinsPerMin'] * 60 * 24
-    d_usd = r.json()['data']['usdPerMin'] * 60 * 24
+    try:
+        r = requests.get('https://api.ethermine.org/miner/fd85081868b0c380ffff66b2dd1c299ee95c09c1/currentStats')
+        d_unpaid = r.json()['data']['unpaid'] / 1000000000000000000
+        d_coin = r.json()['data']['coinsPerMin'] * 60 * 24
+        d_usd = r.json()['data']['usdPerMin'] * 60 * 24
+        d_validShares = r.json()['data']['validShares']
+        d_staleShares = r.json()['data']['staleShares']
+        d_invalidShares = r.json()['data']['invalidShares']
+    except:
+        print ('except api ethermine')
 
 
 def run_timer():
@@ -74,10 +80,11 @@ def run():
     q = 'Sped=' + str('%.1f' % (hashrate_full / 1000000)) + ' Power=' + str(power_full / 1000) + \
         ' Tmax=' + str(temp_max) + ' Tmin=' + str(temp_min)  # +'\n'
     qq = 'unpaid=' + str(d_unpaid)[:5] + ' coin=' + str(d_coin)[:5] + ' usd=' + str(d_usd)[:5] + '\n'
+    qqq = 'validShares=' + str(d_validShares) + ' staleShares=' + str(d_staleShares) + ' invalidShares=' + str(d_invalidShares) + '\n'
     # сборка web страницы index.html
     html = '<html><body style="background-color:#111111;color:#ffffff;font-weight:bold;">'
     html += '<style type="text/css">tr:nth-child(odd) { background-color: #252525; } tr:nth-child(even) { background-color: #111111; }</style>'
-    html += '<p>' + str(datetime.today()) + '</p><p>' + q + '</p><p>' + qq + '</p>'
+    html += '<p>' + str(datetime.today()) + '</p><p>' + q + '</p><p>' + qq + '</p><p>' + qqq + '</p>'
     html += '<p><table border=1><tr><td width=100px>IP</td><td>hashrate</td><td>kH/W</td><td>power</td><td>uptime</td><td>rst</td></tr>' + rig_br_str + '</table></p>'
     html += '<p><table border=1 style="font-weight: left;"></p>'
     html += '<tr><td width=100px>IP</td><td width=100px>Name</td><td>hashrate</td><td>kH/W</td><td>power</td><td>temp</td><td>fan</td></tr>'
