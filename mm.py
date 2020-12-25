@@ -22,6 +22,7 @@ rig_hashrate = {}
 rig_power = {}
 rig_efficiency = {}
 rig_uptime = {}
+rig_restart = {}
 
 f = open('ip.txt')
 for line in f:
@@ -68,7 +69,7 @@ def run():
         rig_str += ip + '=' + str('%.1f' % (rig_hashrate[ip] / 1000000)) + '\n'
         rig_br_str += '<tr><td>' + ip + '</td><td>' + str('%.1f' % (rig_hashrate[ip] / 1000000)) + '</td><td>' + \
             str(rig_efficiency[ip]) + '</td><td>' + str(rig_power[ip] / 1000) + '</td><td>' + \
-            rig_uptime[ip] + '</td></tr>'
+            rig_uptime[ip] + '</td><td>' + rig_restart[ip] + '</td></tr>'
 
     q = 'Sped=' + str('%.1f' % (hashrate_full / 1000000)) + ' Power=' + str(power_full / 1000) + \
         ' Tmax=' + str(temp_max) + ' Tmin=' + str(temp_min)  # +'\n'
@@ -77,7 +78,7 @@ def run():
     html = '<html><body style="background-color:#111111;color:#ffffff;font-weight:bold;">'
     html += '<style type="text/css">tr:nth-child(odd) { background-color: #252525; } tr:nth-child(even) { background-color: #111111; }</style>'
     html += '<p>' + str(datetime.today()) + '</p><p>' + q + '</p><p>' + qq + '</p>'
-    html += '<p><table border=1><tr><td width=100px>IP</td><td>hashrate</td><td>kH/W</td><td>power</td><td>uptime</td></tr>' + rig_br_str + '</table></p>'
+    html += '<p><table border=1><tr><td width=100px>IP</td><td>hashrate</td><td>kH/W</td><td>power</td><td>uptime</td><td>rst</td></tr>' + rig_br_str + '</table></p>'
     html += '<p><table border=1 style="font-weight: left;"></p>'
     html += '<tr><td width=100px>IP</td><td width=100px>Name</td><td>hashrate</td><td>kH/W</td><td>power</td><td>temp</td><td>fan</td></tr>'
     html += trex_table + '</table>'
@@ -112,8 +113,10 @@ def get_json_trex(ip, j):
         rig_power[ip] += power
     try:
         rig_uptime[ip] = str(timedelta(seconds=j['watchdog_stat']['uptime']))
+        rig_restart[ip] = str(j['watchdog_stat']['total_restarts'])
     except:
         rig_uptime[ip] = 1
+        rig_restart[ip] = 0
     return html
 
 
