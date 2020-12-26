@@ -37,7 +37,6 @@ def run_eth_timer():
 
 def run_eth():
     global d_unpaid, d_coin, d_usd, d_validShares, d_staleShares, d_invalidShares
-    #r = requests.get('https://api.ethermine.org/miner/792d6869d054bf4452406dc6900ca5d10d5a8af5/currentStats')
     try:
         r = requests.get('https://api.ethermine.org/miner/fd85081868b0c380ffff66b2dd1c299ee95c09c1/currentStats')
         d_unpaid = r.json()['data']['unpaid'] / 1000000000000000000
@@ -47,7 +46,7 @@ def run_eth():
         d_staleShares = r.json()['data']['staleShares']
         d_invalidShares = r.json()['data']['invalidShares']
     except:
-        print ('except api ethermine')
+        print('except api ethermine')
 
 
 def run_timer():
