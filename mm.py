@@ -45,7 +45,7 @@ def run_eth():
         d_validShares = r.json()['data']['validShares']
         d_staleShares = r.json()['data']['staleShares']
         d_invalidShares = r.json()['data']['invalidShares']
-    except:
+    except Exception:
         print('except api ethermine')
 
 
@@ -67,7 +67,7 @@ def run():
             r = requests.get('http://' + ip + ':4067/summary', timeout=2)
             if r.status_code == 200:
                 trex_table += get_json_trex(ip, r.json())
-        except:
+        except Exception:
             except_connect += 'except: ' + ip
             print("except: " + ip)
             continue
@@ -120,7 +120,7 @@ def get_json_trex(ip, j):
     try:
         rig_uptime[ip] = str(timedelta(seconds=j['watchdog_stat']['uptime']))
         rig_restart[ip] = str(j['watchdog_stat']['total_restarts'])
-    except:
+    except Exception:
         rig_uptime[ip] = 1
         rig_restart[ip] = 0
     return html
@@ -165,7 +165,7 @@ def run_claymore():
         except ConnectionRefusedError:
             send_telegram('connection refused ' + x)
             print("connection refused " + x)
-        except:
+        except Exception:
             send_telegram('except ' + x)
             print("exception claymore " + x)
 
