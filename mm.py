@@ -11,7 +11,7 @@ ferma = []  # массив ип-адресов ригов
 power_full = hashrate_full = fullpower = power = hashrate = temp_max = 0
 result_html = ''
 temp_min = 100
-hashrate_alert = 725000000
+hashrate_alert = 740000000
 t_max_alert = 75
 t_min_alert = 30
 d_coin = d_unpaid = d_usd = d_validShares = d_staleShares = d_invalidShares = 0
