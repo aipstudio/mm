@@ -6,4 +6,4 @@ RUN pip install --no-cache-dir flask requests
 
 COPY . .
 
-CMD [ "python", "./mm.py" ]
+CMD [ "python", "mm.py" ]
