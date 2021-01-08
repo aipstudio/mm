@@ -66,7 +66,7 @@ def run():
             if r.status_code == 200:
                 trex_table += get_json_trex(ip, r.json())
         except Exception:
-            except_connect += 'except: ' + ip
+            except_connect += 'except: ' + ip + '\n'
             print("except: " + ip)
             continue
         rig_str += ip + '=' + str('%.1f' % (rig_hashrate[ip] / 1000000)) + '\n'
