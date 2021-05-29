@@ -11,7 +11,7 @@ ferma = []  # массив ип-адресов ригов
 power_full = hashrate_full = fullpower = power = hashrate = temp_max = 0
 result_html = ''
 temp_min = 100
-hashrate_alert = 730000000
+hashrate_alert = 695000000
 t_max_alert = 75
 t_min_alert = 30
 d_coin = d_unpaid = d_usd = d_validShares = d_staleShares = d_invalidShares = 0
@@ -72,7 +72,7 @@ def run():
         rig_str += ip + '=' + str('%.1f' % (rig_hashrate[ip] / 1000000)) + '\n'
         rig_br_str += '<tr><td>' + ip + '</td><td>' + str('%.1f' % (rig_hashrate[ip] / 1000000)) + '</td><td>' + \
             str(rig_efficiency[ip]) + '</td><td>' + str(rig_power[ip] / 1000) + '</td><td>' + \
-            rig_uptime[ip] + '</td><td>' + rig_restart[ip] + '</td></tr>'
+            str(rig_uptime[ip]) + '</td><td>' + str(rig_restart[ip]) + '</td></tr>'
 
     q = 'Sped=' + str('%.1f' % (hashrate_full / 1000000)) + ' Power=' + str(power_full / 1000) + \
         ' Tmax=' + str(temp_max) + ' Tmin=' + str(temp_min)  # +'\n'
@@ -116,7 +116,8 @@ def get_json_trex(ip, j):
         rig_efficiency[ip] += int(efficiency.replace('kH/W', ''))
         rig_power[ip] += power
     try:
-        rig_uptime[ip] = str(timedelta(seconds=j['watchdog_stat']['uptime']))
+        #rig_uptime[ip] = str(timedelta(seconds=j['watchdog_stat']['uptime']))
+        rig_uptime[ip] = str(timedelta(seconds=j['uptime']))
         rig_restart[ip] = str(j['watchdog_stat']['total_restarts'])
     except Exception:
         rig_uptime[ip] = 1
