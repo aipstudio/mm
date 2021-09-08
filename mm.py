@@ -25,6 +25,7 @@ invalid_count = {}
 rejected_count = {}
 solved_count = {}
 
+
 f = open('ip.txt')
 for line in f:
     ferma.append(line.rstrip())
@@ -75,12 +76,8 @@ def run():
         rig_str += ip + '=' + str('%.1f' % (rig_hashrate[ip] / 1000000)) + '\n'
         rig_br_str += '<tr><td>' + ip + '</td><td>' + str('%.1f' % (rig_hashrate[ip] / 1000000)) + '</td><td>' + \
             str(rig_efficiency[ip]) + '</td><td>' + str(rig_power[ip] / 1000) + '</td><td>' + \
-<<<<<<< HEAD
             str(rig_uptime[ip]) + '</td><td>' + str(invalid_count[ip]) + '</td><td>' + \
             str(rejected_count[ip]) + '</td><td>' + str(solved_count[ip]) + '</td></tr>'
-=======
-            str(rig_uptime[ip]) + '</td><td>' + str(rig_restart[ip]) + '</td></tr>'
->>>>>>> db23849c0cec2fc9718f4db19a1f7b10ac05c3e1
 
     q = 'Sped=' + str('%.1f' % (hashrate_full / 1000000)) + ' Power=' + str(power_full / 1000) + \
         ' Tmax=' + str(temp_max) + ' Tmin=' + str(temp_min)  # +'\n'
@@ -125,17 +122,11 @@ def get_json_trex(ip, j):
         rig_efficiency[ip] += int(efficiency.replace('kH/W', ''))
         rig_power[ip] += power
     try:
-<<<<<<< HEAD
         rig_uptime[ip] = str(timedelta(seconds=j['uptime']))
         accepted_count[ip] = str(j['accepted_count'])
         invalid_count[ip] = str(j['invalid_count'])
         rejected_count[ip] = str(j['rejected_count'])
         solved_count[ip] = str(j['solved_count'])
-=======
-        #rig_uptime[ip] = str(timedelta(seconds=j['watchdog_stat']['uptime']))
-        rig_uptime[ip] = str(timedelta(seconds=j['uptime']))
-        rig_restart[ip] = str(j['watchdog_stat']['total_restarts'])
->>>>>>> db23849c0cec2fc9718f4db19a1f7b10ac05c3e1
     except Exception:
         rig_uptime[ip] = 1
         accepted_count[ip] = 0
