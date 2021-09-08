@@ -11,16 +11,19 @@ ferma = []  # массив ип-адресов ригов
 power_full = hashrate_full = fullpower = power = hashrate = temp_max = 0
 result_html = ''
 temp_min = 100
-hashrate_alert = 730000000
-t_max_alert = 75
-t_min_alert = 30
+hashrate_alert = 800000000
+t_max_alert = 80
+t_min_alert = 25
 d_coin = d_unpaid = d_usd = d_validShares = d_staleShares = d_invalidShares = 0
 count = 0
 rig_hashrate = {}
 rig_power = {}
 rig_efficiency = {}
 rig_uptime = {}
-rig_restart = {}
+accepted_count = {}
+invalid_count = {}
+rejected_count = {}
+solved_count = {}
 
 f = open('ip.txt')
 for line in f:
@@ -72,7 +75,8 @@ def run():
         rig_str += ip + '=' + str('%.1f' % (rig_hashrate[ip] / 1000000)) + '\n'
         rig_br_str += '<tr><td>' + ip + '</td><td>' + str('%.1f' % (rig_hashrate[ip] / 1000000)) + '</td><td>' + \
             str(rig_efficiency[ip]) + '</td><td>' + str(rig_power[ip] / 1000) + '</td><td>' + \
-            rig_uptime[ip] + '</td><td>' + rig_restart[ip] + '</td></tr>'
+            str(rig_uptime[ip]) + '</td><td>' + str(invalid_count[ip]) + '</td><td>' + \
+            str(rejected_count[ip]) + '</td><td>' + str(solved_count[ip]) + '</td></tr>'
 
     q = 'Sped=' + str('%.1f' % (hashrate_full / 1000000)) + ' Power=' + str(power_full / 1000) + \
         ' Tmax=' + str(temp_max) + ' Tmin=' + str(temp_min)  # +'\n'
@@ -82,9 +86,10 @@ def run():
     html = '<html><body style="background-color:#111111;color:#ffffff;font-weight:bold;">'
     html += '<style type="text/css">tr:nth-child(odd) { background-color: #252525; } tr:nth-child(even) { background-color: #111111; }</style>'
     html += '<p>' + str(datetime.today()) + '</p><p>' + q + '</p><p>' + qq + '</p><p>' + qqq + '</p>'
-    html += '<p><table border=1><tr><td width=100px>IP</td><td>hashrate</td><td>kH/W</td><td>power</td><td>uptime</td><td>rst</td></tr>' + rig_br_str + '</table></p>'
+    html += '<p><table border=1><tr><td width=100px>IP</td><td>hashrate</td><td>kH/W</td><td>power</td><td>uptime</td>'
+    html += '<td>I</td><td>R</td><td>S</td></tr>' + rig_br_str + '</table></p>'
     html += '<p><table border=1 style="font-weight: left;"></p>'
-    html += '<tr><td width=100px>IP</td><td width=100px>Name</td><td>hashrate</td><td>kH/W</td><td>power</td><td>temp</td><td>fan</td></tr>'
+    html += '<tr><td width=100px>IP</td><td width=135px>Name</td><td>hashrate</td><td>kH/W</td><td>power</td><td>temp</td><td>fan</td></tr>'
     html += trex_table + '</table>'
 
     result_html = html
@@ -116,94 +121,18 @@ def get_json_trex(ip, j):
         rig_efficiency[ip] += int(efficiency.replace('kH/W', ''))
         rig_power[ip] += power
     try:
-        rig_uptime[ip] = str(timedelta(seconds=j['watchdog_stat']['uptime']))
-        rig_restart[ip] = str(j['watchdog_stat']['total_restarts'])
+        rig_uptime[ip] = str(timedelta(seconds=j['uptime']))
+        accepted_count[ip] = str(j['accepted_count'])
+        invalid_count[ip] = str(j['invalid_count'])
+        rejected_count[ip] = str(j['rejected_count'])
+        solved_count[ip] = str(j['solved_count'])
     except Exception:
         rig_uptime[ip] = 1
-        rig_restart[ip] = 0
+        accepted_count[ip] = 0
+        invalid_count[ip] = 0
+        rejected_count[ip] = 0
+        solved_count[ip] = 0
     return html
-
-
-def run_claymore():
-    m.clear()
-    global fullpower, power, hashrate, temp_max, temp_min, result_html, count
-    fullpower = power = hashrate = temp_max = 0
-    temp_min = 100
-    claymore_table = ''
-    rig_str = rig_br_str = ''
-
-    for x in ferma:  # claymore опрашиваем api удаленных майнеров через сокет
-        # s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s = socket.socket()
-        rig_hashrate[x] = 0
-        try:
-            s.connect((x, 3333))
-            s.send(
-                '{"id":0,"jsonrpc":"2.0","method":"miner_getstat2"}'.encode("utf-8"))
-            data = s.recv(2048)
-            if not data:
-                send_telegram('no data ' + x)
-                print("nodata " + x)
-                break
-            s.close()
-            r = json.loads(data.decode("utf-8"))
-            claymore_table += get_json_claymore(x, r)
-            rig_str += x + '=' + str(rig_hashrate[x]) + '\n'
-            rig_br_str += '<tr><td>' + x + '</td><td>' + str(rig_hashrate[x]) + '</td></tr>'
-        except TimeoutError:
-            send_telegram('connection timeout ' + x)
-            print("connection timeout " + x)
-        except ConnectionRefusedError:
-            send_telegram('connection refused ' + x)
-            print("connection refused " + x)
-        except Exception:
-            send_telegram('except ' + x)
-            print("exception claymore " + x)
-
-    q = 'Sped=' + str(hashrate) + ' Power=' + str(fullpower) + \
-        ' Tmax=' + str(temp_max) + ' Tmin=' + str(temp_min)  # +'\n'
-    qq = 'unpaid=' + str(d_unpaid)[:5] + ' coin=' + str(d_coin)[:5] + ' usd=' + str(d_usd)[:5] + '\n'
-    # сборка web страницы index.html
-    html = '<html><body style="background-color:#111111;color:#ffffff;font-weight:bold;">'
-    html += '<style type="text/css">tr:nth-child(odd) { background-color: #252525; } tr:nth-child(even) { background-color: #111111; }</style>'
-    html += '<p>' + str(datetime.today()) + '</p><p>' + q + '</p><p>' + qq + '</p>'
-    html += '<p><table border=1>' + rig_br_str + '</table></p>'
-
-    # сборка таблицы от claymore
-    html += '<table border=1 style="font-weight: left;">'
-    html += '<tr><td>IPaddr</td><td>Hash</td><td>Temp</td><td>Cooler</td></tr>'
-    html += claymore_table + '</table>'
-
-    result_html = html
-
-    if hashrate < hashrate_alert or temp_max > t_max_alert or temp_min < t_min_alert:  # for claymore ETH
-        send_telegram(q + '\n' + rig_str)
-
-
-# claymore перебор данных json взятыми из api майнеров и подготовка к выводу
-def get_json_claymore(xx, r):
-    global hashrate, fullpower, temp_max, temp_min
-    hashr = temp = cooler = 0
-    rr = ''
-    m3 = r['result'][3].split(';')
-    m6 = r['result'][6].split(';')
-    fullpower += int(r['result'][17])
-    # print(xx+' '+str(datetime.today()))
-    for x in range(len(m3)):
-        hashr = m3[::][x]
-        temp = m6[::2][x]
-        cooler = m6[1::2][x]
-        rr += '<tr>'
-        rr += '<td>' + xx + '</td><td>' + hashr + '</td><td>' + temp + '</td><td>' + cooler + '</td>'
-        rr += '</tr>'
-        hashrate += int(hashr)
-        rig_hashrate[xx] += int(hashr)
-        if int(temp) > temp_max:
-            temp_max = int(temp)
-        elif int(temp) < temp_min:
-            temp_min = int(temp)
-        # print(str(x)+' '+hashr+' '+temp+' '+cooler)
-    return rr
 
 
 def send_telegram(p1):
