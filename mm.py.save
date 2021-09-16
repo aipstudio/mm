@@ -9,12 +9,12 @@ from datetime import datetime, timedelta
 m = []
 ferma = []  # массив ип-адресов ригов
 power_full = hashrate_full = fullpower = power = hashrate = temp_max = 0
-result_html = result_html_2 = ''
+result_html = ''
 temp_min = 100
-hashrate_alert = 810000000
+hashrate_alert = 800000000
 t_max_alert = 75
 t_min_alert = 30
-d_coin = d_unpaid = d_usd = d_validShares = d_staleShares = d_invalidShares = d_reportedHashrate = d_activeWorkers = 0
+d_coin = d_unpaid = d_usd = d_validShares = d_staleShares = d_invalidShares = 0
 count = 0
 rig_hashrate = {}
 rig_power = {}
@@ -37,7 +37,7 @@ def run_eth_timer():
 
 
 def run_eth():
-    global d_unpaid, d_coin, d_usd, d_validShares, d_staleShares, d_invalidShares, d_reportedHashrate, d_activeWorkers, result_html_2
+    global d_unpaid, d_coin, d_usd, d_validShares, d_staleShares, d_invalidShares
     try:
         r = requests.get('https://api.ethermine.org/miner/fd85081868b0c380ffff66b2dd1c299ee95c09c1/currentStats')
         d_unpaid = r.json()['data']['unpaid'] / 1000000000000000000
@@ -46,19 +46,12 @@ def run_eth():
         d_validShares = r.json()['data']['validShares']
         d_staleShares = r.json()['data']['staleShares']
         d_invalidShares = r.json()['data']['invalidShares']
-        d_reportedHashrate = r.json()['data']['reportedHashrate']
-        d_activeWorkers = r.json()['data']['activeWorkers']
-        q =  'hashrate=' + str(d_reportedHashrate / 1000000)[:5] + '\nunpaid=' + str(d_unpaid)[:5]
-        q += '\ncoin=' + str(d_coin)[:5] + '\nusd=' + str(d_usd)[:5]
-        q += '\nvalidShares=' + str(d_validShares) + '\nstaleShares=' + str(d_staleShares) 
-        q += '\ninvalidShares=' + str(d_invalidShares) + '\nworkers=' + str(d_activeWorkers)
-        if d_reportedHashrate < hashrate_alert or d_staleShares > 10 or d_invalidShares > 5 or d_activeWorkers < 3:
-            send_telegram(q)
-        result_html_2 = q.replace('\n','</br>')
     except Exception:
         print('except api ethermine')
-        send_telegram('except api ethermine')
-        result_html_2 = 'except api ethermine'
+
+
+def run_eth_timer():
+
 
 def run_timer():
     threading.Timer(600, run_timer).start()
@@ -154,16 +147,13 @@ def send_telegram(p1):
 app = Flask(__name__)
 
 
-@app.route("/")
-def hello():
-    run_eth()
-    return result_html_2
+#@app.route("/")
+#def hello():
 #    run()
 #    return result_html
 
 
-
 if __name__ == '__main__':
     run_eth_timer()
-#    run_timer()
+ #   run_timer()
     app.run(host='0.0.0.0', port=8008)
